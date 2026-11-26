@@ -2,6 +2,12 @@
 
 A student project for subdivision reports, visitors, and gate records.
 
+## Frontend update
+
+The app now has a new welcome page and neighborhood illustration, a simpler login page with a Show/Hide password button, a green sidebar, and refreshed resident, admin, and guard pages. The resident and admin dashboards include quick actions, saved report counts, community announcements, and report progress. The layout adapts to phones, tablets, and desktops. The mobile menu supports keyboard navigation, and the existing dark mode still works.
+
+The backend and database are the same. Your existing accounts, reports, and visitors stay saved. Open localhost and refresh the page to see the new design.
+
 ## What is already here?
 
 - **Frontend:** the HTML pages, CSS design, and JavaScript that people see and click.
