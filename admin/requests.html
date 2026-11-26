@@ -11,6 +11,8 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/live.css">
+  <link rel="stylesheet" href="../css/frontend.css">
 </head>
 
 <body data-role="admin" data-page="requests.html">
@@ -48,7 +50,7 @@
 
             <div class="side-foot">
                 <div class="side-user">
-                    <span class="avatar">AD</span>
+                    <span class="avatar" data-user-initials>SC</span>
                     <span>
                         <b>Admin</b>
                         <small>HOA Administrator</small>
@@ -56,7 +58,7 @@
                 </div>
                 <a class="nv" href="../index.html">
                     <i data-i="log-out"></i>
-                    <span>Back to role selection</span>
+                    <span>Log out</span>
                 </a>
             </div>
         </aside>
@@ -65,7 +67,7 @@
             <header class="topbar">
                 <div class="brand">
                     <span class="logo"><i data-i="home"></i></span>
-                    <div><b>Carmela Subdivision</b></div>
+                    <div><b>HOA workspace</b></div>
                 </div>
                 <div class="top-r">
                     <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode">
@@ -81,251 +83,7 @@
                 </div>
             </header>
 
-            <main class="view" id="main">
-                <div class="page-head">
-                    <div>
-                        <h1>Requests</h1>
-                        <p class="muted"><span data-count-for="req-table">7</span> shown</p>
-                    </div>
-                    <div class="head-actions">
-                        <button class="btn ghost" data-csv="req-table" data-file="requests.csv">
-                            <i data-i="download"></i> Export CSV
-                        </button>
-                    </div>
-                </div>
-
-                <div class="filters card">
-                    <label class="filter">
-                        <span>Status</span>
-                        <select class="input" data-filter-for="req-table" data-filter-key="status">
-                            <option value="open" selected>Open</option>
-                            <option value="pending">Pending</option>
-                            <option value="in_progress">In progress</option>
-                            <option value="resolved">Resolved</option>
-                            <option value="all">All</option>
-                        </select>
-                    </label>
-
-                    <label class="filter">
-                        <span>Type</span>
-                        <select class="input" data-filter-for="req-table" data-filter-key="type">
-                            <option value="all">All types</option>
-                            <option value="issue">Issues</option>
-                            <option value="service">Service requests</option>
-                        </select>
-                    </label>
-
-                    <label class="filter">
-                        <span>Block</span>
-                        <select class="input" data-filter-for="req-table" data-filter-key="block">
-                            <option value="all">All blocks</option>
-                            <option value="Block 1">Block 1</option>
-                            <option value="Block 2">Block 2</option>
-                            <option value="Block 3">Block 3</option>
-                            <option value="Block 4">Block 4</option>
-                            <option value="Block 5">Block 5</option>
-                            <option value="Block 6">Block 6</option>
-                            <option value="Block 7">Block 7</option>
-                            <option value="Block 8">Block 8</option>
-                            <option value="Main road">Main road</option>
-                        </select>
-                    </label>
-
-                    <label class="filter">
-                        <span>Responsible</span>
-                        <select class="input" data-filter-for="req-table" data-filter-key="party">
-                            <option value="all">Anyone</option>
-                            <option value="unassigned">Not assigned</option>
-                            <option value="hoa">HOA</option>
-                            <option value="developer">Developer</option>
-                            <option value="lgu">LGU / barangay</option>
-                        </select>
-                    </label>
-
-                    <label class="filter search">
-                        <span>Search</span>
-                        <input class="input" type="search" data-search-for="req-table" placeholder="Search reports"
-                            aria-label="Search reports">
-                    </label>
-                </div>
-
-                <div class="card flush table-wrap">
-                    <table class="t stackable" id="req-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Report</th>
-                                <th>Where</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Responsible</th>
-                                <th>Waiting</th>
-                                <th>Affected</th>
-                                <th>Reported</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr data-item data-status="pending" data-type="issue" data-block="Block 4" data-party="hoa">
-                                <td data-l="ID"><b>R-1001</b></td>
-                                <td>
-                                    <a href="./request-detail.html?id=R-1001"><b>Clogged drain at the corner of Block
-                                            4</b></a>
-                                    <span class="chip red">Urgent</span>
-                                    <div class="muted small">Drainage / flooding</div>
-                                </td>
-                                <td data-l="Block">Block 4</td>
-                                <td data-l="Type">Issue</td>
-                                <td data-l="Status"><span class="chip amber">Pending</span></td>
-                                <td data-l="Responsible">HOA</td>
-                                <td data-l="Waiting">—</td>
-                                <td data-l="Affected">3</td>
-                                <td data-l="Reported">2 d ago</td>
-                            </tr>
-
-                            <tr data-item data-status="in_progress" data-type="issue" data-block="Block 3"
-                                data-party="hoa">
-                                <td data-l="ID"><b>R-1002</b></td>
-                                <td>
-                                    <a href="./request-detail.html?id=R-1002"><b>Brown water from the taps</b></a>
-                                    <span class="chip red">Urgent</span>
-                                    <div class="muted small">Water supply</div>
-                                </td>
-                                <td data-l="Block">Block 3, Lot 12</td>
-                                <td data-l="Type">Issue</td>
-                                <td data-l="Status"><span class="chip blue">In progress</span></td>
-                                <td data-l="Responsible">HOA</td>
-                                <td data-l="Waiting">—</td>
-                                <td data-l="Affected">3</td>
-                                <td data-l="Reported">3 d ago</td>
-                            </tr>
-
-                            <tr data-item data-status="in_progress" data-type="service" data-block="Block 5"
-                                data-party="developer">
-                                <td data-l="ID"><b>R-1003</b></td>
-                                <td>
-                                    <a href="./request-detail.html?id=R-1003"><b>Leak under the kitchen sink
-                                            wall</b></a>
-                                    <div class="muted small">Water leak (warranty)</div>
-                                </td>
-                                <td data-l="Block">Block 5, Lot 4</td>
-                                <td data-l="Type">Service request</td>
-                                <td data-l="Status"><span class="chip blue">In progress</span></td>
-                                <td data-l="Responsible">Developer</td>
-                                <td data-l="Waiting">16 days</td>
-                                <td data-l="Affected">1</td>
-                                <td data-l="Reported">16 d ago</td>
-                            </tr>
-
-                            <tr data-item data-status="pending" data-type="service" data-block="Block 7"
-                                data-party="developer">
-                                <td data-l="ID"><b>R-1004</b></td>
-                                <td>
-                                    <a href="./request-detail.html?id=R-1004"><b>Bathroom wall leaking into the next
-                                            room</b></a>
-                                    <div class="muted small">Water leak (warranty)</div>
-                                </td>
-                                <td data-l="Block">Block 7, Lot 9</td>
-                                <td data-l="Type">Service request</td>
-                                <td data-l="Status"><span class="chip amber">Pending</span></td>
-                                <td data-l="Responsible">Developer</td>
-                                <td data-l="Waiting">11 days</td>
-                                <td data-l="Affected">2</td>
-                                <td data-l="Reported">11 d ago</td>
-                            </tr>
-
-                            <tr data-item data-status="pending" data-type="issue" data-block="Block 6" data-party="lgu">
-                                <td data-l="ID"><b>R-1005</b></td>
-                                <td>
-                                    <a href="./request-detail.html?id=R-1005"><b>Stray dogs tearing trash bags</b></a>
-                                    <div class="muted small">Stray animals</div>
-                                </td>
-                                <td data-l="Block">Block 6</td>
-                                <td data-l="Type">Issue</td>
-                                <td data-l="Status"><span class="chip amber">Pending</span></td>
-                                <td data-l="Responsible">LGU / barangay</td>
-                                <td data-l="Waiting">—</td>
-                                <td data-l="Affected">2</td>
-                                <td data-l="Reported">1 d ago</td>
-                            </tr>
-
-                            <tr data-item data-status="resolved" data-type="issue" data-block="Block 2"
-                                data-party="hoa">
-                                <td data-l="ID"><b>R-1006</b></td>
-                                <td>
-                                    <a href="./request-detail.html?id=R-1006"><b>Streetlight out near Block 2
-                                            corner</b></a>
-                                    <div class="muted small">Streetlight</div>
-                                </td>
-                                <td data-l="Block">Block 2</td>
-                                <td data-l="Type">Issue</td>
-                                <td data-l="Status"><span class="chip green">Resolved</span></td>
-                                <td data-l="Responsible">HOA</td>
-                                <td data-l="Waiting">—</td>
-                                <td data-l="Affected">3</td>
-                                <td data-l="Reported">9 d ago</td>
-                            </tr>
-
-                            <tr data-item data-status="resolved" data-type="issue" data-block="Block 1"
-                                data-party="hoa">
-                                <td data-l="ID"><b>R-1008</b></td>
-                                <td>
-                                    <a href="./request-detail.html?id=R-1008"><b>Loud karaoke past midnight</b></a>
-                                    <div class="muted small">Noise / disturbance</div>
-                                </td>
-                                <td data-l="Block">Block 1</td>
-                                <td data-l="Type">Issue</td>
-                                <td data-l="Status"><span class="chip green">Resolved</span></td>
-                                <td data-l="Responsible">HOA</td>
-                                <td data-l="Waiting">—</td>
-                                <td data-l="Affected">1</td>
-                                <td data-l="Reported">12 d ago</td>
-                            </tr>
-
-                            <tr data-item data-status="in_progress" data-type="issue" data-block="Main road"
-                                data-party="hoa">
-                                <td data-l="ID"><b>R-1009</b></td>
-                                <td>
-                                    <a href="./request-detail.html?id=R-1009"><b>Pothole on the main road near the
-                                            gate</b></a>
-                                    <div class="muted small">Road damage</div>
-                                </td>
-                                <td data-l="Block">Main road</td>
-                                <td data-l="Type">Issue</td>
-                                <td data-l="Status"><span class="chip blue">In progress</span></td>
-                                <td data-l="Responsible">HOA</td>
-                                <td data-l="Waiting">—</td>
-                                <td data-l="Affected">3</td>
-                                <td data-l="Reported">5 d ago</td>
-                            </tr>
-
-                            <tr data-item data-status="pending" data-type="issue" data-block="Block 8"
-                                data-party="developer">
-                                <td data-l="ID"><b>R-1010</b></td>
-                                <td>
-                                    <a href="./request-detail.html?id=R-1010"><b>Only one internet provider
-                                            available</b></a>
-                                    <div class="muted small">Internet / utilities</div>
-                                </td>
-                                <td data-l="Block">Block 8</td>
-                                <td data-l="Type">Issue</td>
-                                <td data-l="Status"><span class="chip amber">Pending</span></td>
-                                <td data-l="Responsible">Developer</td>
-                                <td data-l="Waiting">20 days</td>
-                                <td data-l="Affected">3</td>
-                                <td data-l="Reported">20 d ago</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="card" data-empty-for="req-table" hidden>
-                    <div class="empty">
-                        <i data-i="check"></i>
-                        <h3>No matching reports</h3>
-                        <p>Try changing the filters.</p>
-                    </div>
-                </div>
-            </main>
+            <main class="view" id="main" aria-live="polite"><p>Loading your page…</p><noscript>Please enable JavaScript to use this app.</noscript><noscript>Please enable JavaScript to use this app.</noscript></main>
         </div>
 
         <nav class="bottom" aria-label="Main">
@@ -347,26 +105,6 @@
             </a>
         </nav>
     </div>
-
-    <dialog id="notif" aria-labelledby="notif-title">
-        <div class="dlg">
-            <div class="dlg-h">
-                <h2 id="notif-title">Notifications</h2>
-                <button class="icon-btn" data-close aria-label="Close">
-                    <i data-i="x"></i>
-                </button>
-            </div>
-            <div class="list">
-                <div class="item unread">
-                    <span class="item-ic brand"><i data-i="clipboard"></i></span>
-                    <span class="item-main">
-                        <span class="item-t">New community report needs attention.</span>
-                        <span class="item-s">Today</span>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </dialog>
 
     <div id="toast-root" aria-live="polite"></div>
 

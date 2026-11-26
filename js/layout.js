@@ -185,18 +185,23 @@
         ? !document.body.classList.contains('side-collapsed')
         : document.body.classList.contains('side-open');
       toggleBtn.setAttribute('aria-expanded', String(expanded));
+      // Keep the closed drawer out of keyboard navigation.
+      side.inert = !expanded;
     }
 
     function openMobileSide() {
       document.body.classList.add('side-open');
       backdrop.hidden = false;
       syncAria();
+      side.querySelector('[data-menu-close]')?.focus();
     }
 
     function closeMobileSide() {
+      const hadFocus = side.contains(document.activeElement);
       document.body.classList.remove('side-open');
       backdrop.hidden = true;
       syncAria();
+      if (hadFocus) toggleBtn.focus();
     }
 
     toggleBtn.addEventListener('click', () => {
@@ -224,6 +229,13 @@
     });
 
     document.addEventListener('keydown', e => {
+      if (e.key === 'Tab' && !mqDesktop.matches && document.body.classList.contains('side-open')) {
+        const controls = [...side.querySelectorAll('a[href],button:not([disabled])')].filter(el => el.getClientRects().length);
+        const first = controls[0];
+        const last = controls.at(-1);
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+      }
       if (e.key === 'Escape' && document.body.classList.contains('side-open')) {
         closeMobileSide();
       }

@@ -11,6 +11,8 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/live.css">
+  <link rel="stylesheet" href="../css/frontend.css">
 </head>
 
 <body data-role="guard" data-page="gate.html">
@@ -40,12 +42,12 @@
 
       <div class="side-foot">
         <div class="side-user">
-          <span class="avatar">TV</span>
-          <span><b>Tony Valdez</b><small>Gate guard</small></span>
+          <span class="avatar" data-user-initials>SC</span>
+          <span><b data-user-name>Account</b><small>guard</small></span>
         </div>
         <a class="nv" href="../index.html">
           <i data-i="log-out"></i>
-          <span>Back to role selection</span>
+          <span>Log out</span>
         </a>
       </div>
     </aside>
@@ -54,7 +56,7 @@
       <header class="topbar">
         <div class="brand">
           <span class="logo"><i data-i="home"></i></span>
-          <div><b>Carmela Subdivision</b></div>
+          <div><b>Gate workspace</b></div>
         </div>
 
         <div class="top-r">
@@ -71,143 +73,7 @@
         </div>
       </header>
 
-      <main class="view" id="main">
-        <section class="gate-welcome">
-          <div>
-            <h2>Good day, Guard Tony</h2>
-            <p>Monitor visitors and manage entry at Carmela Subdivision.</p>
-          </div>
-          <div class="gate-live">
-            <span class="gate-live-dot"></span>
-            Main Gate
-          </div>
-        </section>
-
-        <div class="gate-stats">
-          <div class="gate-stat">
-            <div class="gate-stat-top">
-              <span class="gate-stat-icon"><i data-i="clock"></i></span>
-              <small>Expected</small>
-            </div>
-            <strong data-gate-stat="expected">2</strong>
-            <small>Visitors expected</small>
-          </div>
-
-          <div class="gate-stat">
-            <div class="gate-stat-top">
-              <span class="gate-stat-icon"><i data-i="users"></i></span>
-              <small>On site</small>
-            </div>
-            <strong data-gate-stat="arrived">1</strong>
-            <small>Currently inside</small>
-          </div>
-
-          <div class="gate-stat">
-            <div class="gate-stat-top">
-              <span class="gate-stat-icon"><i data-i="check"></i></span>
-              <small>Completed</small>
-            </div>
-            <strong data-gate-stat="left">1</strong>
-            <small>Already left</small>
-          </div>
-        </div>
-
-        <div class="page-head">
-          <div>
-            <h1>Gate Management</h1>
-            <p class="muted">Friday, October 23 · Main gate</p>
-          </div>
-          <div class="head-actions">
-            <button type="button" class="btn primary" data-open="walkin">
-              <i data-i="plus"></i>
-              Log a walk-in
-            </button>
-          </div>
-        </div>
-
-        <section class="gate-search">
-          <h2>Find visitor</h2>
-          <p>Enter the visitor code to check their registration.</p>
-
-          <form class="gate-search-form" data-code-lookup>
-            <div class="search grow">
-              <i data-i="search"></i>
-              <input class="input" name="code" placeholder="Enter visitor code, e.g. V-2041" required
-                aria-label="Visitor code" autocomplete="off">
-            </div>
-            <button class="btn primary" type="submit">Find visitor</button>
-          </form>
-        </section>
-
-        <section class="card flush">
-          <div class="card-h gate-section-title" style="padding:16px 16px 0">
-            <h2>Today's visitors</h2>
-            <span class="chip" data-gate-total>4 records</span>
-          </div>
-
-          <div id="gate-list">
-            <div class="gate-row" id="g1" data-code="V-2041" data-name="Jose Ramirez" data-status="expected">
-              <div class="grow">
-                <b>Jose Ramirez</b>
-                <span class="muted small">· V-2041</span>
-                <div class="small muted">Guest · for Maria Santos, B3 L12 · 3:00 PM</div>
-                <div class="small muted" data-gate-note></div>
-              </div>
-              <span data-gate-chip class="chip amber">Expected</span>
-              <div class="gate-act">
-                <button type="button" class="btn sm primary" data-open-checkin>Check in</button>
-                <button type="button" class="btn sm danger" data-gate="denied">Deny</button>
-              </div>
-            </div>
-
-            <div class="gate-row" id="g2" data-code="V-2043" data-name="Mang Ben" data-status="expected">
-              <div class="grow">
-                <b>Mang Ben</b>
-                <span class="muted small">· V-2043</span>
-                <div class="small muted">Tricycle / ride · TC 4821 · for Ana Reyes, B1 L20 · 5:30 PM</div>
-                <div class="small muted" data-gate-note></div>
-              </div>
-              <span data-gate-chip class="chip amber">Expected</span>
-              <div class="gate-act">
-                <button type="button" class="btn sm primary" data-open-checkin>Check in</button>
-                <button type="button" class="btn sm danger" data-gate="denied">Deny</button>
-              </div>
-            </div>
-
-            <div class="gate-row" id="g3" data-code="V-2042" data-name="Mang Lando (plumber)" data-status="arrived">
-              <div class="grow">
-                <b>Mang Lando (plumber)</b>
-                <span class="muted small">· V-2042</span>
-                <div class="small muted">Contractor / service · for Juan Dela Cruz, B5 L4 · 9:00 AM</div>
-                <div class="small muted" data-gate-note>ID left: National ID · in at 9:12 AM</div>
-              </div>
-              <span data-gate-chip class="chip green">On site</span>
-              <div class="gate-act">
-                <button type="button" class="btn sm" data-gate="left">Mark left</button>
-              </div>
-            </div>
-
-            <div class="gate-row" id="g4" data-code="V-2040" data-name="Lazada rider" data-status="left">
-              <div class="grow">
-                <b>Lazada rider</b>
-                <span class="muted small">· V-2040</span>
-                <div class="small muted">Delivery · for Maria Santos, B3 L12 · yesterday</div>
-                <div class="small muted" data-gate-note>ID left: Driver’s license</div>
-              </div>
-              <span data-gate-chip class="chip">Left</span>
-              <div class="gate-act"></div>
-            </div>
-          </div>
-        </section>
-
-        <div class="banner gate-help">
-          <i data-i="info"></i>
-          <div>
-            <strong>Visitor without a code?</strong>
-            <p>Ask for an ID, call the resident to confirm, then use Log a walk-in to record the visitor.</p>
-          </div>
-        </div>
-      </main>
+      <main class="view" id="main" aria-live="polite"><p>Loading your page…</p><noscript>Please enable JavaScript to use this app.</noscript><noscript>Please enable JavaScript to use this app.</noscript></main>
     </div>
 
     <nav class="bottom" aria-label="Main">
@@ -221,116 +87,6 @@
       </a>
     </nav>
   </div>
-
-  <dialog id="notif">
-    <div class="dlg">
-      <div class="dlg-h">
-        <h2>Notifications</h2>
-        <button type="button" class="icon-btn" data-close aria-label="Close">
-          <i data-i="x"></i>
-        </button>
-      </div>
-      <div class="list">
-        <div class="item unread">
-          <span class="item-ic"><i data-i="bell"></i></span>
-          <span class="item-main">
-            <span class="item-t">Visitor Jose Ramirez is expected at 3:00 PM (V-2041).</span>
-            <span class="item-s">today</span>
-          </span>
-        </div>
-        <div class="item">
-          <span class="item-ic"><i data-i="bell"></i></span>
-          <span class="item-main">
-            <span class="item-t">Reminder: log every tricycle and leave an ID.</span>
-            <span class="item-s">this week</span>
-          </span>
-        </div>
-      </div>
-    </div>
-  </dialog>
-
-  <dialog id="checkin">
-    <form class="dlg" data-checkin>
-      <div class="dlg-h">
-        <h2>Check in <span data-who></span></h2>
-        <button type="button" class="icon-btn" data-close aria-label="Close">
-          <i data-i="x"></i>
-        </button>
-      </div>
-
-      <label class="field">
-        <span class="field-l">ID left at the gate</span>
-        <select class="input" name="idleft">
-          <option value="National ID">National ID</option>
-          <option value="Driver’s license">Driver’s license</option>
-          <option value="School / company ID">School / company ID</option>
-          <option value="Other ID">Other ID</option>
-          <option value="No ID left">No ID left</option>
-        </select>
-      </label>
-
-      <label class="field">
-        <span class="field-l">Plate number (optional)</span>
-        <input class="input" name="plate" placeholder="e.g. ABC 123">
-      </label>
-
-      <button class="btn primary block lg" type="submit">Confirm check in</button>
-    </form>
-  </dialog>
-
-  <dialog id="walkin">
-    <form class="dlg" data-demo="walkin">
-      <div class="dlg-h">
-        <h2>Log a walk-in</h2>
-        <button type="button" class="icon-btn" data-close aria-label="Close">
-          <i data-i="x"></i>
-        </button>
-      </div>
-
-      <label class="field">
-        <span class="field-l">Visitor name</span>
-        <input class="input" name="name" required>
-      </label>
-
-      <div class="g2">
-        <label class="field">
-          <span class="field-l">Type</span>
-          <select class="input" name="type">
-            <option>Guest</option>
-            <option>Delivery</option>
-            <option>Contractor / service</option>
-            <option>Tricycle / ride</option>
-          </select>
-        </label>
-
-        <label class="field">
-          <span class="field-l">Visiting (block / lot)</span>
-          <input class="input" name="dest" required placeholder="e.g. Block 4, Lot 7">
-        </label>
-      </div>
-
-      <label class="field">
-        <span class="field-l">ID left at the gate</span>
-        <select class="input" name="idleft">
-          <option value="National ID">National ID</option>
-          <option value="Driver’s license">Driver’s license</option>
-          <option value="School / company ID">School / company ID</option>
-          <option value="Other ID">Other ID</option>
-          <option value="No ID left">No ID left</option>
-        </select>
-      </label>
-
-      <label class="switch-row">
-        <span>
-          <b>Resident confirmed by phone</b>
-          <small>Call the resident before letting the visitor in.</small>
-        </span>
-        <input type="checkbox" class="switch" name="confirmed">
-      </label>
-
-      <button class="btn primary block lg" type="submit">Log entry</button>
-    </form>
-  </dialog>
 
   <div id="toast-root" aria-live="polite"></div>
 

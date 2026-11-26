@@ -11,6 +11,8 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/live.css">
+  <link rel="stylesheet" href="../css/frontend.css">
 </head>
 
 <body data-role="resident" data-page="requests.html">
@@ -33,7 +35,7 @@
         </a>
         <a class="nv on" href="requests.html" aria-current="page">
           <i data-i="clipboard"></i>
-          <span>My reports</span>
+          <span>Reports</span>
         </a>
         <a class="nv" href="visitors.html">
           <i data-i="users"></i>
@@ -43,15 +45,15 @@
 
       <div class="side-foot">
         <div class="side-user">
-          <span class="avatar">MS</span>
+          <span class="avatar" data-user-initials>SC</span>
           <span>
-            <b>Maria Santos</b>
-            <small>Resident · B3 L12</small>
+            <b data-user-name>Resident</b>
+            <small>Resident</small>
           </span>
         </div>
         <a class="nv" href="../index.html">
           <i data-i="log-out"></i>
-          <span>Back to role selection</span>
+          <span>Log out</span>
         </a>
       </div>
     </aside>
@@ -60,7 +62,7 @@
       <header class="topbar">
         <div class="brand">
           <span class="logo"><i data-i="home"></i></span>
-          <div><b>Carmela Subdivision</b></div>
+          <div><b>Resident workspace</b></div>
         </div>
         <div class="top-r">
           <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode">
@@ -76,143 +78,7 @@
         </div>
       </header>
 
-      <main class="view" id="main">
-        <div class="page-head">
-          <div>
-            <h1>Requests</h1>
-            <p class="muted">Issues and repairs</p>
-          </div>
-          <div class="head-actions">
-            <a class="btn primary" href="request-new.html"><i data-i="plus"></i> New report</a>
-          </div>
-        </div>
-
-        <div class="toolbar">
-          <div class="seg" data-filter-for="req-list" data-filter-key="owner">
-            <button type="button" class="on" data-value="mine" aria-pressed="true">My reports</button>
-            <button type="button" data-value="community" aria-pressed="false">Community</button>
-          </div>
-          <div class="seg" data-filter-for="req-list" data-filter-key="status">
-            <button type="button" class="on" data-value="open" aria-pressed="true">Open</button>
-            <button type="button" data-value="resolved" aria-pressed="false">Resolved</button>
-            <button type="button" data-value="all" aria-pressed="false">All</button>
-          </div>
-        </div>
-
-        <p class="muted small">In <b>Community</b>, open a report that affects you too. More people affected helps the
-          HOA
-          decide what to fix first.</p>
-
-        <div class="card flush list" id="req-list">
-          <a class="item" data-item data-status="in_progress" data-owner="mine" href="request-detail.html?id=R-1002">
-            <span class="item-ic amber"><i data-i="alert"></i></span>
-            <span class="item-main">
-              <span class="item-t">Brown water from the taps</span>
-              <span class="item-s">Block 3, Lot 12 · Water supply · 3 d ago</span>
-              <span class="chips">
-                <span class="chip blue">In progress</span>
-                <span class="chip red">Urgent</span>
-                <span class="chip">HOA</span>
-                <span class="chip">3 affected</span>
-              </span>
-            </span>
-            <i data-i="chevR" class="item-chev"></i>
-          </a>
-
-          <a class="item" data-item data-status="pending" data-owner="mine" href="request-detail.html?id=R-1005">
-            <span class="item-ic amber"><i data-i="alert"></i></span>
-            <span class="item-main">
-              <span class="item-t">Stray dogs tearing trash bags</span>
-              <span class="item-s">Block 6 · Stray animals · 1 d ago</span>
-              <span class="chips">
-                <span class="chip amber">Pending</span>
-                <span class="chip">LGU / barangay</span>
-                <span class="chip">2 affected</span>
-              </span>
-            </span>
-            <i data-i="chevR" class="item-chev"></i>
-          </a>
-
-          <a class="item" data-item data-status="pending" data-owner="mine" href="request-detail.html?id=R-1010">
-            <span class="item-ic amber"><i data-i="alert"></i></span>
-            <span class="item-main">
-              <span class="item-t">Only one internet provider available</span>
-              <span class="item-s">Block 8 · Internet / utilities · 20 d ago</span>
-              <span class="chips">
-                <span class="chip amber">Pending</span>
-                <span class="chip red">Developer · waiting 20 days</span>
-                <span class="chip">3 affected</span>
-              </span>
-            </span>
-            <i data-i="chevR" class="item-chev"></i>
-          </a>
-
-          <a class="item" data-item data-status="pending" data-owner="community" href="request-detail.html?id=R-1001">
-            <span class="item-ic amber"><i data-i="alert"></i></span>
-            <span class="item-main">
-              <span class="item-t">Clogged drain at the corner of Block 4</span>
-              <span class="item-s">Block 4 · Drainage / flooding · 2 d ago</span>
-              <span class="chips">
-                <span class="chip amber">Pending</span>
-                <span class="chip red">Urgent</span>
-                <span class="chip">HOA</span>
-                <span class="chip">3 affected</span>
-              </span>
-            </span>
-            <i data-i="chevR" class="item-chev"></i>
-          </a>
-
-          <a class="item" data-item data-status="resolved" data-owner="community" href="request-detail.html?id=R-1006">
-            <span class="item-ic amber"><i data-i="alert"></i></span>
-            <span class="item-main">
-              <span class="item-t">Streetlight out near Block 2 corner</span>
-              <span class="item-s">Block 2 · Streetlight · 9 d ago</span>
-              <span class="chips">
-                <span class="chip green">Resolved</span>
-                <span class="chip">3 affected</span>
-              </span>
-            </span>
-            <i data-i="chevR" class="item-chev"></i>
-          </a>
-
-          <a class="item" data-item data-status="resolved" data-owner="community" href="request-detail.html?id=R-1008">
-            <span class="item-ic amber"><i data-i="alert"></i></span>
-            <span class="item-main">
-              <span class="item-t">Loud karaoke past midnight</span>
-              <span class="item-s">Block 1 · Noise / disturbance · 12 d ago</span>
-              <span class="chips">
-                <span class="chip green">Resolved</span>
-                <span class="chip">1 affected</span>
-              </span>
-            </span>
-            <i data-i="chevR" class="item-chev"></i>
-          </a>
-
-          <a class="item" data-item data-status="in_progress" data-owner="community"
-            href="request-detail.html?id=R-1009">
-            <span class="item-ic amber"><i data-i="alert"></i></span>
-            <span class="item-main">
-              <span class="item-t">Pothole on the main road near the gate</span>
-              <span class="item-s">Main road · Road damage · 5 d ago</span>
-              <span class="chips">
-                <span class="chip blue">In progress</span>
-                <span class="chip">HOA</span>
-                <span class="chip">3 affected</span>
-              </span>
-            </span>
-            <i data-i="chevR" class="item-chev"></i>
-          </a>
-        </div>
-
-        <div class="card" data-empty-for="req-list" hidden>
-          <div class="empty">
-            <i data-i="clipboard"></i>
-            <h3>No reports here</h3>
-            <p>Try another filter, or send a new report.</p>
-            <a class="btn primary" href="request-new.html">New report</a>
-          </div>
-        </div>
-      </main>
+      <main class="view" id="main" aria-live="polite"><p>Loading your page…</p><noscript>Please enable JavaScript to use this app.</noscript><noscript>Please enable JavaScript to use this app.</noscript></main>
     </div>
 
     <nav class="bottom" aria-label="Main">
@@ -230,26 +96,6 @@
       </a>
     </nav>
   </div>
-
-  <dialog id="notif">
-    <div class="dlg">
-      <div class="dlg-h">
-        <h2>Notifications</h2>
-        <button type="button" class="icon-btn" data-close aria-label="Close">
-          <i data-i="x"></i>
-        </button>
-      </div>
-      <div class="list">
-        <div class="item unread">
-          <span class="item-ic brand"><i data-i="users"></i></span>
-          <span class="item-main">
-            <span class="item-t">Visitor Jose Ramirez is expected at 3:00 PM (V-2041).</span>
-            <span class="item-s">Today</span>
-          </span>
-        </div>
-      </div>
-    </div>
-  </dialog>
 
   <div id="toast-root" aria-live="polite"></div>
 
