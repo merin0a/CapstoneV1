@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C7A63">
+  <title>Log in · Subdivision Connect</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="./css/styles.css?v=3">
+</head>
+
+<body>
+
+  <div class="auth">
+
+    <section class="auth-hero">
+      <div class="brand">
+        <span class="logo">SC</span>
+        <div>
+          <b>Camella Homes Urdaneta System</b>
+        </div>
+      </div>
+
+      <h1>AI-Assisted Security &amp; Reporting System for Camella Homes Urdaneta</h1>
+
+      <p>
+        Access your dashboard and manage your subdivision activities.
+      </p>
+    </section>
+
+    <section class="auth-side">
+      <div class="auth-card card">
+        <div class="auth-heading">
+          <a href="./index.html" class="btn ghost sm" style="width:auto">
+            ← Back to roles
+          </a>
+
+          <h2 id="login-title" style="margin-top:14px">Log in</h2>
+
+          <p class="muted small" id="login-description">
+            Enter your details to continue.
+          </p>
+        </div>
+
+        <form class="stack" id="demo-login">
+          <label class="field">
+            <span class="field-l">Email</span>
+            <input class="input" type="email" name="email" required placeholder="you@example.com" value="demo@carmela.ph">
+          </label>
+
+          <label class="field">
+            <span class="field-l">Password</span>
+            <input class="input" type="password" name="pass" placeholder="Enter your password (optional in demo)">
+          </label>
+
+          <button class="btn primary block" type="submit">
+            Log in
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </div>
+
+  <div id="toast-root" aria-live="polite"></div>
+
+  <script>
+    try {
+      const t = localStorage.getItem('cc_theme');
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+
+    const params = new URLSearchParams(window.location.search);
+    const role = params.get("role");
+
+    const roles = {
+      resident: {
+        name: "Resident",
+        description: "Log in to access the Resident Dashboard.",
+        destination: "./resident/home.html",
+        email: "maria.santos@carmela.ph"
+      },
+      admin: {
+        name: "HOA Admin",
+        description: "Log in to access the Admin Dashboard.",
+        destination: "./admin/dashboard.html",
+        email: "admin@carmela.ph"
+      },
+      guard: {
+        name: "Guard",
+        description: "Log in to access Gate Management.",
+        destination: "./guard/gate.html",
+        email: "guard.tony@carmela.ph"
+      }
+    };
+
+    const selectedRole = roles[role];
+
+    if (!selectedRole) {
+      window.location.replace("./index.html");
+    } else {
+      document.getElementById("login-title").textContent =
+        selectedRole.name + " Log in";
+
+      document.getElementById("login-description").textContent =
+        selectedRole.description;
+
+      const emailInput = document.querySelector('#demo-login input[name="email"]');
+      if (emailInput) emailInput.value = selectedRole.email;
+    }
+
+    document.getElementById("demo-login").addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!selectedRole) return;
+      window.location.href = selectedRole.destination;
+    });
+  </script>
+
+</body>
+
+</html>

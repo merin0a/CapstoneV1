@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0C7A63">
+    <title>Announcements · Carmela Subdivision</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body data-role="admin" data-page="announcements.html">
+
+    <a class="skip" href="#main">Skip to content</a>
+
+    <div class="shell">
+        <aside class="side">
+            <a class="brand" href="../index.html">
+                <span class="logo"><i data-i="home"></i></span>
+                <div>
+                    <b>Subdivision Connect</b>
+                    <span class="sub">Carmela Subdivision</span>
+                </div>
+            </a>
+
+            <nav class="side-nav" aria-label="Main">
+                <a class="nv" href="dashboard.html">
+                    <i data-i="grid"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a class="nv" href="requests.html">
+                    <i data-i="clipboard"></i>
+                    <span>Requests</span>
+                </a>
+                <a class="nv" href="visitors.html">
+                    <i data-i="users"></i>
+                    <span>Visitors</span>
+                </a>
+                <a class="nv on" href="announcements.html" aria-current="page">
+                    <i data-i="megaphone"></i>
+                    <span>Announcements</span>
+                </a>
+            </nav>
+
+            <div class="side-foot">
+                <div class="side-user">
+                    <span class="avatar">AD</span>
+                    <span>
+                        <b>Admin</b>
+                        <small>HOA Administrator</small>
+                    </span>
+                </div>
+                <a class="nv" href="../index.html">
+                    <i data-i="log-out"></i>
+                    <span>Back to role selection</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-col">
+            <header class="topbar">
+                <div class="brand">
+                    <span class="logo"><i data-i="home"></i></span>
+                    <div><b>Carmela Subdivision</b></div>
+                </div>
+
+                <div class="top-r">
+                    <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode">
+                        <i data-i="moon"></i>
+                    </button>
+                    <button class="icon-btn" data-open="notif" aria-label="Notifications">
+                        <i data-i="bell"></i>
+                        <i class="bell-dot"></i>
+                    </button>
+                    <a class="icon-btn" href="../index.html" aria-label="Logout">
+                        <i data-i="log-out"></i>
+                    </a>
+                </div>
+            </header>
+
+            <main class="view" id="main">
+                <div class="page-head">
+                    <div>
+                        <h1>Announcements</h1>
+                        <p class="muted">
+                            Post updates every resident can see on their home screen.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="g2">
+                    <!-- New Announcement Form -->
+                    <form class="card stack" data-demo="announce">
+                        <h2>New announcement</h2>
+
+                        <label class="field">
+                            <span class="field-l">Title</span>
+                            <input class="input" name="title" required maxlength="80"
+                                placeholder="e.g. Gate closed for repairs on Saturday">
+                        </label>
+
+                        <label class="field">
+                            <span class="field-l">Message</span>
+                            <textarea class="input" name="body" rows="5" required
+                                placeholder="What do residents need to know?"></textarea>
+                        </label>
+
+                        <label class="switch-row">
+                            <span>
+                                <b>Pin to the top</b>
+                                <small>Pinned notices appear first.</small>
+                            </span>
+                            <input type="checkbox" class="switch" name="pin">
+                        </label>
+
+                        <button class="btn primary" type="submit">
+                            <i data-i="megaphone"></i>
+                            Post announcement
+                        </button>
+                    </form>
+
+                    <!-- Posted Announcements -->
+                    <section class="stack" id="ann-list" aria-label="Posted announcements">
+                        <article class="ann pin">
+                            <div class="ann-h">
+                                <b>Water tank cleaning scheduled this Sunday</b>
+                                <span class="chip brand">Pinned</span>
+                            </div>
+                            <p>Water pressure may be low from 8:00 AM to 12:00 PM while the main elevated tank is
+                                flushed.</p>
+                            <small class="muted">Oct 22 · Posted by HOA</small>
+                        </article>
+
+                        <article class="ann">
+                            <div class="ann-h">
+                                <b>Pre-register holiday guests &amp; deliveries</b>
+                            </div>
+                            <p>Please generate a gate code under Visitors before guests arrive to avoid queues at the
+                                main gate.</p>
+                            <small class="muted">Oct 19 · Posted by HOA</small>
+                        </article>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <nav class="bottom" aria-label="Mobile navigation">
+            <a class="bn" href="dashboard.html">
+                <i data-i="grid"></i>
+                <span>Dashboard</span>
+            </a>
+            <a class="bn" href="requests.html">
+                <i data-i="clipboard"></i>
+                <span>Requests</span>
+            </a>
+            <a class="bn" href="visitors.html">
+                <i data-i="users"></i>
+                <span>Visitors</span>
+            </a>
+            <a class="bn on" href="announcements.html" aria-current="page">
+                <i data-i="megaphone"></i>
+                <span>Updates</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Notifications Dialog -->
+    <dialog id="notif" aria-labelledby="notif-title">
+        <div class="dlg">
+            <div class="dlg-h">
+                <h2 id="notif-title">Notifications</h2>
+                <button class="icon-btn" data-close aria-label="Close">
+                    <i data-i="x"></i>
+                </button>
+            </div>
+            <div class="list">
+                <div class="item unread">
+                    <span class="item-ic brand"><i data-i="clipboard"></i></span>
+                    <span class="item-main">
+                        <span class="item-t">New resident report submitted for HOA review.</span>
+                        <span class="item-s">Today</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <div id="toast-root" aria-live="polite"></div>
+
+    <script src="../js/layout.js"></script>
+    <script src="../js/app.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0C7A63">
+    <title>Subdivision Connect · Carmela Subdivision</title>
+    <meta name="description"
+        content="AI-Assisted Security & Reporting System for Camella Homes Urdaneta (Carmela Subdivision).">
+    <meta property="og:title" content="Subdivision Connect · Carmela Subdivision">
+    <meta property="og:description"
+        content="One place for Carmela Subdivision to report problems, follow who is responsible, and log the gate.">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="i-home" viewBox="0 0 24 24">
+            <path d="M3 11l9-8 9 8" />
+            <path d="M5 10v10h14V10" />
+            <path d="M10 20v-6h4v6" />
+        </symbol>
+
+        <symbol id="i-grid" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7" rx="1.5" />
+            <rect x="14" y="3" width="7" height="7" rx="1.5" />
+            <rect x="3" y="14" width="7" height="7" rx="1.5" />
+            <rect x="14" y="14" width="7" height="7" rx="1.5" />
+        </symbol>
+
+        <symbol id="i-users" viewBox="0 0 24 24">
+            <circle cx="9" cy="8" r="3.5" />
+            <path d="M2.5 20c.5-3.5 3-5.5 6.5-5.5s6 2 6.5 5.5" />
+            <circle cx="17" cy="9" r="2.5" />
+            <path d="M17 14.5c2.5 0 4 1.5 4.5 4.5" />
+        </symbol>
+
+        <symbol id="i-door" viewBox="0 0 24 24">
+            <path d="M6 21V4h9l3 2v15M3 21h18" />
+            <circle cx="12" cy="13" r=".8" />
+        </symbol>
+    </svg>
+
+    <div class="auth">
+
+        <section class="auth-hero">
+            <div class="brand">
+                <span class="logo">
+                    <svg class="ic" aria-hidden="true">
+                        <use href="#i-home" />
+                    </svg>
+                </span>
+                <div>
+                    <b>Camella Homes Urdaneta System</b>
+                </div>
+            </div>
+
+            <h1>AI-Assisted Security &amp; Reporting System for Camella Homes Urdaneta</h1>
+
+            <p>
+                One place for Carmela Subdivision to report problems, follow who is responsible, and log the gate.
+            </p>
+        </section>
+
+        <section class="auth-side">
+            <div class="auth-card card">
+                <div class="auth-heading">
+                    <h2>Choose a role to explore</h2>
+                    <p class="muted small">
+                        Select your role to continue to the demo login page.
+                    </p>
+                </div>
+
+                <div class="role-grid">
+                    <a class="role-card" href="./login.html?role=resident">
+                        <svg class="ic" aria-hidden="true">
+                            <use href="#i-users" />
+                        </svg>
+                        <span>
+                            <b>Resident</b>
+                            <small>Report issues, request repairs, pre-register visitors</small>
+                        </span>
+                    </a>
+
+                    <a class="role-card" href="./login.html?role=admin">
+                        <svg class="ic" aria-hidden="true">
+                            <use href="#i-grid" />
+                        </svg>
+                        <span>
+                            <b>HOA Admin</b>
+                            <small>Dashboard, reports, visitor log, announcements</small>
+                        </span>
+                    </a>
+
+                    <a class="role-card" href="./login.html?role=guard">
+                        <svg class="ic" aria-hidden="true">
+                            <use href="#i-door" />
+                        </svg>
+                        <span>
+                            <b>Guard</b>
+                            <small>Gate check-in and visitor log</small>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        try {
+            const t = localStorage.getItem('cc_theme');
+            if (t) document.documentElement.dataset.theme = t;
+        } catch (e) { }
+    </script>
+</body>
+
+</html>

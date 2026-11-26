@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0C7A63">
+  <title>New report · Carmela Subdivision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body data-role="resident" data-page="requests.html">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="shell">
+    <aside class="side">
+      <a class="brand" href="../index.html">
+        <span class="logo"><i data-i="home"></i></span>
+        <div>
+          <b>Subdivision Connect</b>
+          <span class="sub">Carmela Subdivision</span>
+        </div>
+      </a>
+
+      <nav class="side-nav" aria-label="Main">
+        <a class="nv" href="home.html">
+          <i data-i="home"></i>
+          <span>Home</span>
+        </a>
+        <a class="nv on" href="requests.html" aria-current="page">
+          <i data-i="clipboard"></i>
+          <span>My reports</span>
+        </a>
+        <a class="nv" href="visitors.html">
+          <i data-i="users"></i>
+          <span>Visitors</span>
+        </a>
+      </nav>
+
+      <div class="side-foot">
+        <div class="side-user">
+          <span class="avatar">MS</span>
+          <span>
+            <b>Maria Santos</b>
+            <small>Resident · B3 L12</small>
+          </span>
+        </div>
+        <a class="nv" href="../index.html">
+          <i data-i="log-out"></i>
+          <span>Back to role selection</span>
+        </a>
+      </div>
+    </aside>
+
+    <div class="main-col">
+      <header class="topbar">
+        <div class="brand">
+          <span class="logo"><i data-i="home"></i></span>
+          <div><b>Carmela Subdivision</b></div>
+        </div>
+        <div class="top-r">
+          <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode">
+            <i data-i="moon"></i>
+          </button>
+          <button class="icon-btn" data-open="notif" aria-label="Notifications">
+            <i data-i="bell"></i>
+            <i class="bell-dot"></i>
+          </button>
+          <a class="icon-btn" href="../index.html" aria-label="Logout">
+            <i data-i="log-out"></i>
+          </a>
+        </div>
+      </header>
+
+      <main class="view" id="main">
+        <a class="back" href="requests.html"><i data-i="chevL"></i> Requests</a>
+
+        <div class="page-head">
+          <div>
+            <h1>New report</h1>
+            <p class="muted">Tell us what is wrong. You can follow it from the Requests page.</p>
+          </div>
+        </div>
+
+        <form class="card stack" data-demo="request" data-toast="Report sent. You will be notified of updates."
+          data-redirect="request-detail.html?id=R-1002">
+          <label class="field"><span class="field-l">What is it about?</span>
+            <select class="input" id="category" name="category" required>
+              <optgroup label="Issue">
+                <option>Drainage / flooding</option>
+                <option>Water supply</option>
+                <option>Streetlight</option>
+                <option>Road damage</option>
+                <option>Stray animals</option>
+                <option>Noise / disturbance</option>
+                <option>Security concern</option>
+                <option>Internet / utilities</option>
+                <option>Other</option>
+              </optgroup>
+              <optgroup label="Service request (repairs)">
+                <option>Water leak (warranty)</option>
+                <option>Plumbing</option>
+                <option>Electrical</option>
+                <option>Tree trimming / yard</option>
+                <option>Cleaning</option>
+              </optgroup>
+            </select>
+          </label>
+
+          <label class="field"><span class="field-l">Short title</span>
+            <input class="input" name="title" required maxlength="80" placeholder="e.g. Clogged drain near the corner">
+          </label>
+
+          <label class="field"><span class="field-l">Details</span>
+            <textarea class="input" name="desc" rows="4" data-suggest
+              placeholder="What happened, since when, how bad is it?"></textarea>
+          </label>
+          <div class="suggest" id="suggest-box" hidden></div>
+
+          <div class="g2">
+            <label class="field"><span class="field-l">Block</span>
+              <select class="input" name="block">
+                <option value="Block 1">Block 1</option>
+                <option value="Block 2">Block 2</option>
+                <option value="Block 3" selected>Block 3</option>
+                <option value="Block 4">Block 4</option>
+                <option value="Block 5">Block 5</option>
+                <option value="Block 6">Block 6</option>
+                <option value="Block 7">Block 7</option>
+                <option value="Block 8">Block 8</option>
+                <option value="Main road / common area">Main road / common area</option>
+              </select>
+            </label>
+            <label class="field"><span class="field-l">Lot (if at your home)</span>
+              <input class="input" name="lot" inputmode="numeric" value="12">
+            </label>
+          </div>
+
+          <label class="field"><span class="field-l">Where exactly? (optional)</span>
+            <input class="input" name="location" placeholder="e.g. in front of the clubhouse">
+          </label>
+
+          <div class="field">
+            <span class="field-l">How urgent?</span>
+            <div class="radios">
+              <label class="radio"><input type="radio" name="urgency" value="normal" checked><span>Normal</span></label>
+              <label class="radio"><input type="radio" name="urgency" value="urgent"><span>Urgent: safety or health
+                  risk</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-l">Photo (helps a lot)</span>
+            <div class="photo-field">
+              <div class="photo-prev" id="photo-prev"><i data-i="camera"></i><span>No photo</span></div>
+              <label class="btn ghost sm"><i data-i="camera"></i> Take or choose photo
+                <input type="file" accept="image/*" capture="environment" data-preview="photo-prev" hidden>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn primary block lg" type="submit"><i data-i="check"></i> Send report</button>
+        </form>
+      </main>
+    </div>
+
+    <nav class="bottom" aria-label="Main">
+      <a class="bn" href="home.html">
+        <i data-i="home"></i>
+        <span>Home</span>
+      </a>
+      <a class="bn on" href="requests.html" aria-current="page">
+        <i data-i="clipboard"></i>
+        <span>Reports</span>
+      </a>
+      <a class="bn" href="visitors.html">
+        <i data-i="users"></i>
+        <span>Visitors</span>
+      </a>
+    </nav>
+  </div>
+
+  <dialog id="notif">
+    <div class="dlg">
+      <div class="dlg-h">
+        <h2>Notifications</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close">
+          <i data-i="x"></i>
+        </button>
+      </div>
+      <div class="list">
+        <div class="item unread">
+          <span class="item-ic brand"><i data-i="users"></i></span>
+          <span class="item-main">
+            <span class="item-t">Visitor Jose Ramirez is expected at 3:00 PM (V-2041).</span>
+            <span class="item-s">Today</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="toast-root" aria-live="polite"></div>
+
+  <script src="../js/layout.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+
+</html>

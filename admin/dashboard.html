@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0C7A63">
+    <title>Dashboard · Carmela Subdivision</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body data-role="admin" data-page="dashboard.html">
+
+    <a class="skip" href="#main">Skip to content</a>
+
+    <div class="shell">
+
+        <aside class="side">
+            <a class="brand" href="../index.html">
+                <span class="logo"><i data-i="home"></i></span>
+                <div>
+                    <b>Subdivision Connect</b>
+                    <span class="sub">Carmela Subdivision</span>
+                </div>
+            </a>
+
+            <nav class="side-nav" aria-label="Main">
+                <a class="nv on" href="dashboard.html" aria-current="page">
+                    <i data-i="grid"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a class="nv" href="requests.html">
+                    <i data-i="clipboard"></i>
+                    <span>Requests</span>
+                </a>
+                <a class="nv" href="visitors.html">
+                    <i data-i="users"></i>
+                    <span>Visitors</span>
+                </a>
+                <a class="nv" href="announcements.html">
+                    <i data-i="megaphone"></i>
+                    <span>Announcements</span>
+                </a>
+            </nav>
+
+            <div class="side-foot">
+                <div class="side-user">
+                    <span class="avatar">AD</span>
+                    <span>
+                        <b>Admin</b>
+                        <small>HOA Administrator</small>
+                    </span>
+                </div>
+                <a class="nv" href="../index.html">
+                    <i data-i="log-out"></i>
+                    <span>Back to role selection</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-col">
+
+            <header class="topbar">
+                <div class="brand">
+                    <span class="logo"><i data-i="home"></i></span>
+                    <div><b>Carmela Subdivision</b></div>
+                </div>
+
+                <div class="top-r">
+                    <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode">
+                        <i data-i="moon"></i>
+                    </button>
+                    <button class="icon-btn" data-open="notif" aria-label="Notifications">
+                        <i data-i="bell"></i>
+                        <i class="bell-dot"></i>
+                    </button>
+                    <a class="icon-btn" href="../index.html" aria-label="Logout">
+                        <i data-i="log-out"></i>
+                    </a>
+                </div>
+            </header>
+
+            <main class="view" id="main">
+
+                <section class="gate-welcome">
+                    <div>
+                        <h2>Good day, Admin</h2>
+                        <p>Monitor subdivision reports and community activities.</p>
+                    </div>
+                    <div class="gate-live">
+                        <span class="gate-live-dot"></span>
+                        HOA Administration
+                    </div>
+                </section>
+
+                <div class="page-head">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p class="muted">Carmela Subdivision · Friday, October 23</p>
+                    </div>
+                    <div class="head-actions">
+                        <a class="btn primary" href="announcements.html">
+                            <i data-i="megaphone"></i>
+                            Post announcement
+                        </a>
+                    </div>
+                </div>
+
+                <div class="g3">
+                    <a class="tile" href="requests.html">
+                        <span class="tile-l">Open requests</span>
+                        <span class="tile-v">7</span>
+                        <span class="tile-s">4 still pending</span>
+                    </a>
+
+                    <a class="tile red" href="requests.html">
+                        <span class="tile-l">Waiting on developer</span>
+                        <span class="tile-v">3</span>
+                        <span class="tile-s">Oldest: 20 days</span>
+                    </a>
+
+                    <a class="tile" href="visitors.html">
+                        <span class="tile-l">Visitors today</span>
+                        <span class="tile-v">3</span>
+                        <span class="tile-s">1 on site now</span>
+                    </a>
+                </div>
+
+                <div class="g2">
+
+                    <section class="card">
+                        <div class="card-h">
+                            <h2>Open reports by block</h2>
+                            <span class="muted small">Tap a block</span>
+                        </div>
+
+                        <svg class="bmap" viewBox="0 0 320 244" role="group"
+                            aria-label="Schematic map of blocks with open report counts">
+                            <a href="requests.html?block=Main+road">
+                                <rect x="136" y="6" width="48" height="208" rx="6" class="bm-road" />
+                                <text x="160" y="112" text-anchor="middle" class="bm-rd"
+                                    transform="rotate(-90 160 112)">Main road (1)</text>
+                            </a>
+
+                            <a href="requests.html?block=Block+1">
+                                <g class="bm-b cool">
+                                    <title>Block 1: 0 open</title>
+                                    <rect x="16" y="10" width="112" height="40" rx="8" />
+                                    <text x="28" y="34" class="bm-t">Block 1</text>
+                                    <circle cx="106" cy="30" r="12" class="bm-c" />
+                                    <text x="106" y="34.5" text-anchor="middle" class="bm-n">0</text>
+                                </g>
+                            </a>
+
+                            <a href="requests.html?block=Block+2">
+                                <g class="bm-b cool">
+                                    <title>Block 2: 0 open</title>
+                                    <rect x="192" y="10" width="112" height="40" rx="8" />
+                                    <text x="204" y="34" class="bm-t">Block 2</text>
+                                    <circle cx="282" cy="30" r="12" class="bm-c" />
+                                    <text x="282" y="34.5" text-anchor="middle" class="bm-n">0</text>
+                                </g>
+                            </a>
+
+                            <a href="requests.html?block=Block+3">
+                                <g class="bm-b warm">
+                                    <title>Block 3: 1 open</title>
+                                    <rect x="16" y="60" width="112" height="40" rx="8" />
+                                    <text x="28" y="84" class="bm-t">Block 3</text>
+                                    <circle cx="106" cy="80" r="12" class="bm-c" />
+                                    <text x="106" y="84.5" text-anchor="middle" class="bm-n">1</text>
+                                </g>
+                            </a>
+
+                            <a href="requests.html?block=Block+4">
+                                <g class="bm-b warm">
+                                    <title>Block 4: 1 open</title>
+                                    <rect x="192" y="60" width="112" height="40" rx="8" />
+                                    <text x="204" y="84" class="bm-t">Block 4</text>
+                                    <circle cx="282" cy="80" r="12" class="bm-c" />
+                                    <text x="282" y="84.5" text-anchor="middle" class="bm-n">1</text>
+                                </g>
+                            </a>
+
+                            <a href="requests.html?block=Block+5">
+                                <g class="bm-b warm">
+                                    <title>Block 5: 1 open</title>
+                                    <rect x="16" y="110" width="112" height="40" rx="8" />
+                                    <text x="28" y="134" class="bm-t">Block 5</text>
+                                    <circle cx="106" cy="130" r="12" class="bm-c" />
+                                    <text x="106" y="134.5" text-anchor="middle" class="bm-n">1</text>
+                                </g>
+                            </a>
+
+                            <a href="requests.html?block=Block+6">
+                                <g class="bm-b warm">
+                                    <title>Block 6: 1 open</title>
+                                    <rect x="192" y="110" width="112" height="40" rx="8" />
+                                    <text x="204" y="134" class="bm-t">Block 6</text>
+                                    <circle cx="282" cy="130" r="12" class="bm-c" />
+                                    <text x="282" y="134.5" text-anchor="middle" class="bm-n">1</text>
+                                </g>
+                            </a>
+
+                            <a href="requests.html?block=Block+7">
+                                <g class="bm-b warm">
+                                    <title>Block 7: 1 open</title>
+                                    <rect x="16" y="160" width="112" height="40" rx="8" />
+                                    <text x="28" y="184" class="bm-t">Block 7</text>
+                                    <circle cx="106" cy="180" r="12" class="bm-c" />
+                                    <text x="106" y="184.5" text-anchor="middle" class="bm-n">1</text>
+                                </g>
+                            </a>
+
+                            <a href="requests.html?block=Block+8">
+                                <g class="bm-b warm">
+                                    <title>Block 8: 1 open</title>
+                                    <rect x="192" y="160" width="112" height="40" rx="8" />
+                                    <text x="204" y="184" class="bm-t">Block 8</text>
+                                    <circle cx="282" cy="180" r="12" class="bm-c" />
+                                    <text x="282" y="184.5" text-anchor="middle" class="bm-n">1</text>
+                                </g>
+                            </a>
+
+                            <rect x="140" y="222" width="40" height="14" rx="4" class="bm-gate" />
+                            <text x="160" y="232.5" text-anchor="middle" class="bm-gt">Gate</text>
+                        </svg>
+
+                        <div class="legend">
+                            <span><i class="lg" style="background:var(--green-soft)"></i> None</span>
+                            <span><i class="lg" style="background:var(--amber-soft)"></i> 1–2 open</span>
+                            <span><i class="lg" style="background:var(--red-soft)"></i> 3 or more</span>
+                        </div>
+                    </section>
+
+                    <section class="card">
+                        <div class="card-h">
+                            <h2>Reports per week</h2>
+                        </div>
+
+                        <svg class="chart" viewBox="0 0 320 120" role="img" aria-label="Reports per week, last 8 weeks">
+                            <rect x="7.2" y="72.7" width="25.6" height="29.3" rx="4" fill="var(--brand)" />
+                            <text x="20" y="68.7" text-anchor="middle" class="ch-tx">2</text>
+                            <text x="20" y="116" text-anchor="middle" class="ch-tx">W1</text>
+
+                            <rect x="47.2" y="58" width="25.6" height="44" rx="4" fill="var(--brand)" />
+                            <text x="60" y="54" text-anchor="middle" class="ch-tx">3</text>
+                            <text x="60" y="116" text-anchor="middle" class="ch-tx">W2</text>
+
+                            <rect x="87.2" y="87.3" width="25.6" height="14.7" rx="4" fill="var(--brand)" />
+                            <text x="100" y="83.3" text-anchor="middle" class="ch-tx">1</text>
+                            <text x="100" y="116" text-anchor="middle" class="ch-tx">W3</text>
+
+                            <rect x="127.2" y="43.3" width="25.6" height="58.7" rx="4" fill="var(--brand)" />
+                            <text x="140" y="39.3" text-anchor="middle" class="ch-tx">4</text>
+                            <text x="140" y="116" text-anchor="middle" class="ch-tx">W4</text>
+
+                            <rect x="167.2" y="72.7" width="25.6" height="29.3" rx="4" fill="var(--brand)" />
+                            <text x="180" y="68.7" text-anchor="middle" class="ch-tx">2</text>
+                            <text x="180" y="116" text-anchor="middle" class="ch-tx">W5</text>
+
+                            <rect x="207.2" y="58" width="25.6" height="44" rx="4" fill="var(--brand)" />
+                            <text x="220" y="54" text-anchor="middle" class="ch-tx">3</text>
+                            <text x="220" y="116" text-anchor="middle" class="ch-tx">W6</text>
+
+                            <rect x="247.2" y="28.7" width="25.6" height="73.3" rx="4" fill="var(--brand)" />
+                            <text x="260" y="24.7" text-anchor="middle" class="ch-tx">5</text>
+                            <text x="260" y="116" text-anchor="middle" class="ch-tx">W7</text>
+
+                            <rect x="287.2" y="14" width="25.6" height="88" rx="4" fill="var(--brand)" />
+                            <text x="300" y="10" text-anchor="middle" class="ch-tx">6</text>
+                            <text x="300" y="116" text-anchor="middle" class="ch-tx">W8</text>
+                        </svg>
+
+                        <p class="muted small">Sample data for the prototype.</p>
+                    </section>
+
+                </div>
+
+                <section class="card">
+                    <div class="card-h">
+                        <h2>What people report most</h2>
+                    </div>
+
+                    <div class="hbars">
+                        <div class="hb">
+                            <span>Water leak (warranty)</span>
+                            <span class="hb-t"><span class="hb-f" style="width:100%"></span></span>
+                            <span class="hb-v">2</span>
+                        </div>
+                        <div class="hb">
+                            <span>Drainage / flooding</span>
+                            <span class="hb-t"><span class="hb-f" style="width:50%"></span></span>
+                            <span class="hb-v">1</span>
+                        </div>
+                        <div class="hb">
+                            <span>Water supply</span>
+                            <span class="hb-t"><span class="hb-f" style="width:50%"></span></span>
+                            <span class="hb-v">1</span>
+                        </div>
+                        <div class="hb">
+                            <span>Stray animals</span>
+                            <span class="hb-t"><span class="hb-f" style="width:50%"></span></span>
+                            <span class="hb-v">1</span>
+                        </div>
+                        <div class="hb">
+                            <span>Streetlight</span>
+                            <span class="hb-t"><span class="hb-f" style="width:50%"></span></span>
+                            <span class="hb-v">1</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card flush">
+                    <div class="card-h" style="padding:16px 16px 0">
+                        <h2>Needs attention</h2>
+                        <a class="link" href="requests.html">All requests</a>
+                    </div>
+
+                    <div class="list">
+                        <a class="item" data-item data-status="pending" data-owner="community"
+                            href="request-detail.html?id=R-1001">
+                            <span class="item-ic amber"><i data-i="alert"></i></span>
+                            <span class="item-main">
+                                <span class="item-t">Clogged drain at the corner of Block 4</span>
+                                <span class="item-s">Block 4 · Drainage / flooding · 2 d ago</span>
+                                <span class="chips">
+                                    <span class="chip amber">Pending</span>
+                                    <span class="chip red">Urgent</span>
+                                    <span class="chip">HOA</span>
+                                    <span class="chip">3 affected</span>
+                                </span>
+                            </span>
+                            <i data-i="chevR" class="item-chev"></i>
+                        </a>
+
+                        <a class="item" data-item data-status="in_progress" data-owner="mine"
+                            href="request-detail.html?id=R-1002">
+                            <span class="item-ic amber"><i data-i="alert"></i></span>
+                            <span class="item-main">
+                                <span class="item-t">Brown water from the taps</span>
+                                <span class="item-s">Block 3, Lot 12 · Water supply · 3 d ago</span>
+                                <span class="chips">
+                                    <span class="chip blue">In progress</span>
+                                    <span class="chip red">Urgent</span>
+                                    <span class="chip">HOA</span>
+                                    <span class="chip">3 affected</span>
+                                </span>
+                            </span>
+                            <i data-i="chevR" class="item-chev"></i>
+                        </a>
+
+                        <a class="item" data-item data-status="in_progress" data-owner="community"
+                            href="request-detail.html?id=R-1003">
+                            <span class="item-ic blue"><i data-i="wrench"></i></span>
+                            <span class="item-main">
+                                <span class="item-t">Leak under the kitchen sink wall</span>
+                                <span class="item-s">Block 5, Lot 4 · Water leak (warranty) · 16 d ago</span>
+                                <span class="chips">
+                                    <span class="chip blue">In progress</span>
+                                    <span class="chip red">Developer · waiting 16 days</span>
+                                    <span class="chip">1 affected</span>
+                                </span>
+                            </span>
+                            <i data-i="chevR" class="item-chev"></i>
+                        </a>
+
+                        <a class="item" data-item data-status="pending" data-owner="community"
+                            href="request-detail.html?id=R-1004">
+                            <span class="item-ic blue"><i data-i="wrench"></i></span>
+                            <span class="item-main">
+                                <span class="item-t">Bathroom wall leaking into the next room</span>
+                                <span class="item-s">Block 7, Lot 9 · Water leak (warranty) · 11 d ago</span>
+                                <span class="chips">
+                                    <span class="chip amber">Pending</span>
+                                    <span class="chip red">Developer · waiting 11 days</span>
+                                    <span class="chip">2 affected</span>
+                                </span>
+                            </span>
+                            <i data-i="chevR" class="item-chev"></i>
+                        </a>
+
+                        <a class="item" data-item data-status="pending" data-owner="mine"
+                            href="request-detail.html?id=R-1010">
+                            <span class="item-ic amber"><i data-i="alert"></i></span>
+                            <span class="item-main">
+                                <span class="item-t">Only one internet provider available</span>
+                                <span class="item-s">Block 8 · Internet / utilities · 20 d ago</span>
+                                <span class="chips">
+                                    <span class="chip amber">Pending</span>
+                                    <span class="chip red">Developer · waiting 20 days</span>
+                                    <span class="chip">3 affected</span>
+                                </span>
+                            </span>
+                            <i data-i="chevR" class="item-chev"></i>
+                        </a>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+
+        <nav class="bottom" aria-label="Main">
+            <a class="bn on" href="dashboard.html" aria-current="page">
+                <i data-i="grid"></i>
+                <span>Dashboard</span>
+            </a>
+            <a class="bn" href="requests.html">
+                <i data-i="clipboard"></i>
+                <span>Requests</span>
+            </a>
+            <a class="bn" href="visitors.html">
+                <i data-i="users"></i>
+                <span>Visitors</span>
+            </a>
+            <a class="bn" href="announcements.html">
+                <i data-i="megaphone"></i>
+                <span>Updates</span>
+            </a>
+        </nav>
+
+    </div>
+
+    <dialog id="notif" aria-labelledby="notif-title">
+        <div class="dlg">
+            <div class="dlg-h">
+                <h2 id="notif-title">Notifications</h2>
+                <button class="icon-btn" data-close aria-label="Close">
+                    <i data-i="x"></i>
+                </button>
+            </div>
+            <div class="list">
+                <div class="item unread">
+                    <span class="item-ic brand"><i data-i="clipboard"></i></span>
+                    <span class="item-main">
+                        <span class="item-t">New community report needs attention.</span>
+                        <span class="item-s">Today</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <div id="toast-root" aria-live="polite"></div>
+
+    <script src="../js/layout.js"></script>
+    <script src="../js/app.js"></script>
+
+</body>
+
+</html>
