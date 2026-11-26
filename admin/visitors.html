@@ -11,6 +11,7 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="../css/styles.css?v=3">
+  <link rel="stylesheet" href="../css/live.css">
 </head>
 
 <body data-role="admin" data-page="visitors.html">
@@ -48,7 +49,7 @@
 
       <div class="side-foot">
         <div class="side-user">
-          <span class="avatar">AD</span>
+          <span class="avatar" data-user-initials>SC</span>
           <span>
             <b>Admin</b>
             <small>HOA Administrator</small>
@@ -56,7 +57,7 @@
         </div>
         <a class="nv" href="../index.html">
           <i data-i="log-out"></i>
-          <span>Back to role selection</span>
+          <span>Log out</span>
         </a>
       </div>
     </aside>
@@ -82,168 +83,7 @@
         </div>
       </header>
 
-      <main class="view" id="main">
-        <div class="page-head">
-          <div>
-            <h1>Visitor log</h1>
-            <p class="muted">Everything the guards record at the gate</p>
-          </div>
-          <div class="head-actions">
-            <button class="btn ghost" data-csv="v-table" data-file="visitor-log.csv">
-              <i data-i="download"></i>
-              Export CSV
-            </button>
-          </div>
-        </div>
-
-        <div class="g4">
-          <div class="tile">
-            <span class="tile-l">Today</span>
-            <span class="tile-v">3</span>
-            <span class="tile-s">entries logged</span>
-          </div>
-
-          <div class="tile">
-            <span class="tile-l">On site now</span>
-            <span class="tile-v">1</span>
-            <span class="tile-s">Mang Lando</span>
-          </div>
-
-          <div class="tile amber">
-            <span class="tile-l">Walk-ins this week</span>
-            <span class="tile-v">2</span>
-            <span class="tile-s">not pre-registered</span>
-          </div>
-
-          <div class="tile red">
-            <span class="tile-l">No ID left</span>
-            <span class="tile-v">2 of 6</span>
-            <span class="tile-s">entries this week</span>
-          </div>
-        </div>
-
-        <div class="filters card" style="grid-template-columns:1fr 1fr 2fr">
-          <label class="filter">
-            <span>Status</span>
-            <select class="input" data-filter-for="v-table" data-filter-key="status">
-              <option value="all">All</option>
-              <option value="onsite">On site</option>
-              <option value="left">Left</option>
-            </select>
-          </label>
-
-          <label class="filter">
-            <span>Entry type</span>
-            <select class="input" data-filter-for="v-table" data-filter-key="kind">
-              <option value="all">All</option>
-              <option value="reg">Pre-registered</option>
-              <option value="walk">Walk-ins</option>
-            </select>
-          </label>
-
-          <label class="filter">
-            <span>Search</span>
-            <input class="input" type="search" data-search-for="v-table" placeholder="Name, code, resident…"
-              aria-label="Search the visitor log">
-          </label>
-        </div>
-
-        <div class="card flush table-wrap">
-          <table class="t stackable" id="v-table">
-            <thead>
-              <tr>
-                <th>When</th>
-                <th>Code</th>
-                <th>Visitor</th>
-                <th>Visiting</th>
-                <th>ID left</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr data-item data-status="onsite" data-kind="reg">
-                <td data-l="When">Oct 23, 9:12 AM</td>
-                <td data-l="Code"><b>V-2042</b></td>
-                <td>
-                  <b>Mang Lando (plumber)</b>
-                  <div class="muted small">Contractor / service</div>
-                </td>
-                <td data-l="Visiting">Juan Dela Cruz · B5 L4</td>
-                <td data-l="ID left">National ID</td>
-                <td data-l="Status"><span class="chip green">On site</span></td>
-              </tr>
-
-              <tr data-item data-status="left" data-kind="walk">
-                <td data-l="When">Oct 23, 8:40 AM</td>
-                <td data-l="Code"><b>W-014</b></td>
-                <td>
-                  <b>Walk-in: Mr. Aquino</b>
-                  <div class="muted small">Guest</div>
-                </td>
-                <td data-l="Visiting">Ana Reyes · B1 L20</td>
-                <td data-l="ID left">School / company ID</td>
-                <td data-l="Status"><span class="chip">Left</span></td>
-              </tr>
-
-              <tr data-item data-status="left" data-kind="reg">
-                <td data-l="When">Oct 23, 7:55 AM</td>
-                <td data-l="Code"><b>V-2038</b></td>
-                <td>
-                  <b>Tricycle · TC 7710</b>
-                  <div class="muted small">Tricycle / ride</div>
-                </td>
-                <td data-l="Visiting">Maria Santos · B3 L12</td>
-                <td data-l="ID left">No ID left</td>
-                <td data-l="Status"><span class="chip">Left</span></td>
-              </tr>
-
-              <tr data-item data-status="left" data-kind="reg">
-                <td data-l="When">Oct 22, 1:00 PM</td>
-                <td data-l="Code"><b>V-2040</b></td>
-                <td>
-                  <b>Lazada rider</b>
-                  <div class="muted small">Delivery</div>
-                </td>
-                <td data-l="Visiting">Maria Santos · B3 L12</td>
-                <td data-l="ID left">Driver’s license</td>
-                <td data-l="Status"><span class="chip">Left</span></td>
-              </tr>
-
-              <tr data-item data-status="left" data-kind="walk">
-                <td data-l="When">Oct 22, 10:20 AM</td>
-                <td data-l="Code"><b>W-013</b></td>
-                <td>
-                  <b>Walk-in: delivery man</b>
-                  <div class="muted small">Delivery</div>
-                </td>
-                <td data-l="Visiting">Juan Dela Cruz · B5 L4</td>
-                <td data-l="ID left">No ID left</td>
-                <td data-l="Status"><span class="chip">Left</span></td>
-              </tr>
-
-              <tr data-item data-status="left" data-kind="reg">
-                <td data-l="When">Oct 21, 4:10 PM</td>
-                <td data-l="Code"><b>V-2036</b></td>
-                <td>
-                  <b>Relatives (2 people)</b>
-                  <div class="muted small">Guest</div>
-                </td>
-                <td data-l="Visiting">Ana Reyes · B1 L20</td>
-                <td data-l="ID left">National ID</td>
-                <td data-l="Status"><span class="chip">Left</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card" data-empty-for="v-table" hidden>
-          <div class="empty">
-            <i data-i="users"></i>
-            <h3>No matching visitors</h3>
-            <p>Try changing the filters or search query.</p>
-          </div>
-        </div>
-      </main>
+      <main class="view" id="main" aria-live="polite"><p>Loading your page…</p><noscript>Please enable JavaScript to use this app.</noscript><noscript>Please enable JavaScript to use this app.</noscript></main>
     </div>
 
     <nav class="bottom" aria-label="Main">
@@ -265,26 +105,6 @@
       </a>
     </nav>
   </div>
-
-  <dialog id="notif" aria-labelledby="notif-title">
-    <div class="dlg">
-      <div class="dlg-h">
-        <h2 id="notif-title">Notifications</h2>
-        <button class="icon-btn" data-close aria-label="Close">
-          <i data-i="x"></i>
-        </button>
-      </div>
-      <div class="list">
-        <div class="item unread">
-          <span class="item-ic brand"><i data-i="clipboard"></i></span>
-          <span class="item-main">
-            <span class="item-t">New community report needs attention.</span>
-            <span class="item-s">Today</span>
-          </span>
-        </div>
-      </div>
-    </div>
-  </dialog>
 
   <div id="toast-root" aria-live="polite"></div>
 

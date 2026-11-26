@@ -1,664 +1,193 @@
-/* app.js: behaviour for the Carmela Subdivision prototype (demo). Load after layout.js. */
+/* The page design is HTML/CSS. This file loads and saves its real data. */
 (() => {
   'use strict';
-  const $ = (s, r = document) => r.querySelector(s);
-  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-  const on = (ev, fn) => document.addEventListener(ev, fn);
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const now = () => new Date().toLocaleTimeString('en-PH', { hour: 'numeric', minute: '2-digit' });
-  const iso = () => {
-    const t = new Date();
-    return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
-  };
-  const dates = () => $$('form[data-demo="visitor"] input[type=date]').forEach(d => {
-    d.defaultValue = d.value = d.min = iso();
-  });
-  const openDlg = id => {
-    const d = document.getElementById(id);
-    d?.showModal?.();
-    return d;
-  };
-
-  /* theme */
-  const root = document.documentElement;
-  const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  try {
-    const t = localStorage.getItem('cc_theme');
-    if (t) root.dataset.theme = t;
-  } catch (e) { }
-
-  /* toast */
-  const toast = (msg, tone = '') => {
-    let host = $('#toast-root');
-    if (!host) {
-      host = Object.assign(document.createElement('div'), { id: 'toast-root' });
-      host.setAttribute('aria-live', 'polite');
-      document.body.append(host);
-    }
-    const t = Object.assign(document.createElement('div'), { className: 'toast ' + tone, textContent: msg });
-    t.setAttribute('role', 'status');
-    host.append(t);
-    setTimeout(() => t.classList.add('out'), 2800);
-    setTimeout(() => t.remove(), 3300);
-  };
-  window.CC = { toast };
-
-  /* shared demo reports for request-detail pages */
-  const REPORTS = {
-    'R-1001': {
-      title: 'Clogged drain at the corner of Block 4',
-      kind: 'Issue',
-      category: 'Drainage / flooding',
-      status: 'pending',
-      party: 'hoa',
-      where: 'Block 4',
-      reporter: 'Carlos Mendoza',
-      reported: 'Oct 21, 10:15 AM',
-      affected: 3,
-      urgent: true,
-      waitDays: 0,
-      desc: 'Rainwater pools up to ankle-deep near the corner drain whenever it rains heavily.',
-      timeline: [
-        { cls: 'pending', title: 'Pending', when: 'Oct 21, 10:15 AM', note: 'Report submitted', by: 'Carlos' }
-      ]
-    },
-    'R-1002': {
-      title: 'Brown water from the taps',
-      kind: 'Issue',
-      category: 'Water supply',
-      status: 'in_progress',
-      party: 'hoa',
-      where: 'Block 3, Lot 12',
-      reporter: 'Maria Santos',
-      reported: 'Oct 20, 8:10 AM',
-      affected: 3,
-      urgent: true,
-      waitDays: 0,
-      desc: 'Water has been brown since Monday morning. The tank may need cleaning.',
-      timeline: [
-        { cls: 'in_progress', title: 'In progress', when: 'Oct 20, 2:15 PM', note: 'Acknowledged by the HOA. Tank inspection scheduled.', by: 'HOA' },
-        { cls: 'pending', title: 'Pending', when: 'Oct 20, 8:10 AM', note: 'Report submitted', by: 'Maria' }
-      ]
-    },
-    'R-1003': {
-      title: 'Leak under the kitchen sink wall',
-      kind: 'Service request',
-      category: 'Water leak (warranty)',
-      status: 'in_progress',
-      party: 'developer',
-      where: 'Block 5, Lot 4',
-      reporter: 'Juan Dela Cruz',
-      reported: 'Oct 7, 9:30 AM',
-      affected: 1,
-      urgent: false,
-      waitDays: 16,
-      desc: 'Leak started a month after turnover. This should be covered by the developer’s warranty.',
-      timeline: [
-        { cls: 'in_progress', title: 'In progress', when: 'Oct 7, 3:30 PM', note: 'Forwarded to the developer. Waiting for a reply.', by: 'HOA' },
-        { cls: 'pending', title: 'Pending', when: 'Oct 7, 9:30 AM', note: 'Report submitted', by: 'Juan' }
-      ]
-    },
-    'R-1004': {
-      title: 'Bathroom wall leaking into the next room',
-      kind: 'Service request',
-      category: 'Water leak (warranty)',
-      status: 'pending',
-      party: 'developer',
-      where: 'Block 7, Lot 9',
-      reporter: 'Elena Cruz',
-      reported: 'Oct 12, 11:00 AM',
-      affected: 2,
-      urgent: false,
-      waitDays: 11,
-      desc: 'Damp spots and peeling paint appeared on the bedroom wall behind the shower.',
-      timeline: [
-        { cls: 'pending', title: 'Pending', when: 'Oct 12, 11:00 AM', note: 'Report submitted and queued for developer warranty check.', by: 'Elena' }
-      ]
-    },
-    'R-1005': {
-      title: 'Stray dogs tearing trash bags',
-      kind: 'Issue',
-      category: 'Stray animals',
-      status: 'pending',
-      party: 'lgu',
-      where: 'Block 6',
-      reporter: 'Maria Santos',
-      reported: 'Oct 22, 7:20 AM',
-      affected: 2,
-      urgent: false,
-      waitDays: 0,
-      desc: 'Three stray dogs enter through the side fence before garbage pickup.',
-      timeline: [
-        { cls: 'pending', title: 'Pending', when: 'Oct 22, 7:20 AM', note: 'Endorsed to barangay animal control.', by: 'HOA' }
-      ]
-    },
-    'R-1006': {
-      title: 'Streetlight out near Block 2 corner',
-      kind: 'Issue',
-      category: 'Streetlight',
-      status: 'resolved',
-      party: 'hoa',
-      where: 'Block 2',
-      reporter: 'Ramon Villanueva',
-      reported: 'Oct 14, 7:45 PM',
-      affected: 3,
-      urgent: false,
-      waitDays: 0,
-      desc: 'Corner lamp post flickered and went completely dark at night.',
-      timeline: [
-        { cls: 'resolved', title: 'Resolved', when: 'Oct 16, 4:00 PM', note: 'Bulb and ballast replaced by maintenance.', by: 'HOA' },
-        { cls: 'pending', title: 'Pending', when: 'Oct 14, 7:45 PM', note: 'Report submitted', by: 'Ramon' }
-      ]
-    },
-    'R-1008': {
-      title: 'Loud karaoke past midnight',
-      kind: 'Issue',
-      category: 'Noise / disturbance',
-      status: 'resolved',
-      party: 'hoa',
-      where: 'Block 1',
-      reporter: 'Ana Reyes',
-      reported: 'Oct 11, 12:35 AM',
-      affected: 1,
-      urgent: false,
-      waitDays: 0,
-      desc: 'Music volume remained high past subdivision quiet hours (10:00 PM).',
-      timeline: [
-        { cls: 'resolved', title: 'Resolved', when: 'Oct 11, 12:50 AM', note: 'Roving guard reminded household of quiet hours.', by: 'Guard' },
-        { cls: 'pending', title: 'Pending', when: 'Oct 11, 12:35 AM', note: 'Report submitted', by: 'Ana' }
-      ]
-    },
-    'R-1009': {
-      title: 'Pothole on the main road near the gate',
-      kind: 'Issue',
-      category: 'Road damage',
-      status: 'in_progress',
-      party: 'hoa',
-      where: 'Main road',
-      reporter: 'Tony Valdez',
-      reported: 'Oct 18, 2:10 PM',
-      affected: 3,
-      urgent: false,
-      waitDays: 0,
-      desc: 'Deep pothole near the inbound lane slows tricycles and cars entering the gate.',
-      timeline: [
-        { cls: 'in_progress', title: 'In progress', when: 'Oct 19, 9:00 AM', note: 'Cold-mix asphalt patching scheduled this week.', by: 'HOA' },
-        { cls: 'pending', title: 'Pending', when: 'Oct 18, 2:10 PM', note: 'Report submitted', by: 'Tony' }
-      ]
-    },
-    'R-1010': {
-      title: 'Only one internet provider available',
-      kind: 'Issue',
-      category: 'Internet / utilities',
-      status: 'pending',
-      party: 'developer',
-      where: 'Block 8',
-      reporter: 'Maria Santos',
-      reported: 'Oct 3, 1:05 PM',
-      affected: 3,
-      urgent: false,
-      waitDays: 20,
-      desc: 'Phase 2 lines are still locked to a single ISP while residents wait on pole clearance.',
-      timeline: [
-        { cls: 'pending', title: 'Pending', when: 'Oct 3, 1:05 PM', note: 'Waiting for developer utility clearance.', by: 'HOA' }
-      ]
-    }
-  };
-
-  const PARTY_LABEL = {
-    unassigned: 'Not assigned',
-    hoa: 'HOA',
-    developer: 'Developer',
-    lgu: 'LGU / barangay'
-  };
-
-  const STATUS = {
-    pending: ['Pending', 'amber'],
-    in_progress: ['In progress', 'blue'],
-    resolved: ['Resolved', 'green']
-  };
-
-  /* click actions: one entry per data-* attribute */
-  const A = {
-    'data-theme-toggle': () => {
-      const n = isDark() ? 'light' : 'dark';
-      root.dataset.theme = n;
-      try { localStorage.setItem('cc_theme', n); } catch (e) { }
-    },
-    'data-open': t => {
-      const d = openDlg(t.dataset.open);
-      if (!d) return;
-      if (t.dataset.title) $('[data-dlg-title]', d)?.replaceChildren(t.dataset.title);
-      if (t.dataset.block) {
-        d.dataset.block = t.dataset.block;
-        $('[data-dlg-block]', d)?.replaceChildren(t.dataset.block);
-      }
-    },
-    'data-close': t => t.closest('dialog')?.close(),
-    'data-print': () => print(),
-    'data-csv': t => exportCsv(t.dataset.csv, t.dataset.file || 'export.csv'),
-    'data-copy': t => {
-      const s = $(t.dataset.copy);
-      (navigator.clipboard
-        ? navigator.clipboard.writeText((s?.value || s?.textContent || '').trim())
-        : Promise.reject()
-      ).then(() => toast('Copied.'), () => toast('Select the text and copy it manually.', 'err'));
-    },
-    'data-set-status': setStatus,
-    'data-affect': t => {
-      const n = $('[data-affect-n]');
-      if (!n) return;
-      const p = t.classList.toggle('primary');
-      t.classList.toggle('ghost', !p);
-      n.textContent = +n.textContent + (p ? 1 : -1);
-      const txt = $('[data-affect-t]', t);
-      if (txt) txt.textContent = p ? 'You said this affects you too' : 'This affects me too';
-    },
-    'data-gate': t => {
-      const row = t.closest('.gate-row');
-      const a = t.dataset.gate;
-      if (!row) return;
-      if (a === 'left') {
-        setGate(row, 'left');
-        toast('Checked out.');
-      }
-      if (a === 'denied') {
-        setGate(row, 'denied');
-        toast('Entry denied. Resident notified (demo).');
-      }
-    },
-    'data-open-checkin': t => {
-      const row = t.closest('.gate-row');
-      const d = openDlg('checkin');
-      if (!row || !d) return;
-      d.dataset.row = row.id;
-      $('[data-who]', d).textContent = row.dataset.name;
-    },
-    'data-del': t => {
-      const el = t.closest(t.dataset.del);
-      if (el) {
-        el.remove();
-        toast('Removed.');
-      }
-    },
-    'data-use-cat': t => {
-      const s = $('#category');
-      if (s) s.value = t.dataset.useCat;
-      const box = $('#suggest-box');
-      if (box) box.hidden = true;
-    },
-    'data-approve': t => {
-      const r = t.closest('[data-res]');
-      const s = $('[data-res-status]', r);
-      const ok = t.dataset.approve === 'yes';
-      if (s) {
-        s.className = 'chip ' + (ok ? 'green' : 'red');
-        s.textContent = ok ? 'Approved' : 'Declined';
-      }
-      $$('[data-approve]', r).forEach(b => b.remove());
-      toast(`Reservation ${ok ? 'approved' : 'declined'}. Resident notified (demo).`);
-    }
-  };
-
-  const actionSel = Object.keys(A).map(k => `[${k}]`).join();
-  on('click', e => {
-    const t = e.target.closest(actionSel);
-    if (!t) return e.target.tagName === 'DIALOG' && e.target.close();
-    A[Object.keys(A).find(k => t.hasAttribute(k))](t);
-  });
-
-  /* list filtering: chips, selects and search drive one list */
-  function filter(id) {
-    const list = document.getElementById(id);
-    if (!list) return;
-    const ctl = $$(`[data-filter-for="${id}"]`);
-    const empty = $$(`[data-empty-for="${id}"]`);
-    const q = ($(`[data-search-for="${id}"]`)?.value || '').toLowerCase();
-    let n = 0;
-    $$('[data-item]', list).forEach(it => {
-      const ok = ctl.every(c => {
-        const v = c.matches('select,input') ? c.value : $('.on', c)?.dataset.value;
-        const k = c.dataset.filterKey;
-        return !v || v === 'all' || (v === 'open' ? it.dataset[k] !== 'resolved' : it.dataset[k] === v);
-      }) && (!q || it.textContent.toLowerCase().includes(q));
-      it.hidden = !ok;
-      n += ok;
-    });
-    $$(`[data-count-for="${id}"]`).forEach(x => x.textContent = n);
-    empty.forEach(x => x.hidden = n > 0);
-    list.hidden = n === 0 && empty.length > 0;
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const role=document.body.dataset.role;
+  const page=location.pathname.split('/').pop();
+  const main=$('#main');
+  let user,notifications=[],reports=[],visits=[],events=[],currentReport;
+  const labels={pending:'Pending',in_progress:'In progress',resolved:'Resolved',expected:'Expected',arrived:'On site',left:'Left',denied:'Denied',cancelled:'Cancelled'};
+  const tones={pending:'amber',in_progress:'blue',resolved:'green',expected:'amber',arrived:'green',denied:'red'};
+  const parties={unassigned:'Not assigned',hoa:'HOA',developer:'Developer',lgu:'LGU / barangay'};
+  const categories=['Drainage / flooding','Water supply','Streetlight','Road damage','Stray animals','Noise / disturbance','Security concern','Internet / utilities','Water leak (warranty)','Other'];
+  const visitorTypes=['Guest','Delivery','Contractor / service','Tricycle / ride'];
+  const date=value=>value?new Date(value).toLocaleString('en-PH',{dateStyle:'medium',timeStyle:'short'}):'';
+  const day=value=>String(value).slice(0,10);
+  const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Manila',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  const chip=status=>`<span class="chip ${tones[status]||''}">${esc(labels[status]||status)}</span>`;
+  const options=(values,selected)=>values.map(v=>`<option value="${esc(v)}" ${v===selected?'selected':''}>${esc(labels[v]||parties[v]||v)}</option>`).join('');
+  const empty=message=>`<p class="live-empty">${esc(message)}</p>`;
+  const header=(title,subtitle='',actions='')=>`<div class="page-head"><div><h1>${esc(title)}</h1><p class="muted">${esc(subtitle)}</p></div><div class="live-actions">${actions}</div></div>`;
+  const card=(title,body)=>`<section class="card live-card"><h2>${esc(title)}</h2>${body}</section>`;
+  const field=(label,name,type='text',extra='')=>`<label>${esc(label)}<input class="input" name="${name}" type="${type}" ${extra}></label>`;
+  const select=(label,name,values,selected)=>`<label>${esc(label)}<select class="input" name="${name}">${options(values,selected)}</select></label>`;
+  const area=(label,name,max=4000)=>`<label>${esc(label)}<textarea class="input" name="${name}" required maxlength="${max}"></textarea></label>`;
+  function toast(message,error=false) {
+    let host=$('#toast-root');if(!host) { host=document.createElement('div');host.id='toast-root';host.setAttribute('aria-live','polite');document.body.append(host); }
+    const item=document.createElement('div');item.className='toast'+(error?' err':'');item.textContent=message;host.append(item);setTimeout(()=>item.remove(),5000);
   }
-
-  on('click', e => {
-    const b = e.target.closest('[data-filter-for] button');
-    if (!b) return;
-    const g = b.closest('[data-filter-for]');
-    $$('button', g).forEach(x => {
-      x.classList.toggle('on', x === b);
-      x.setAttribute('aria-pressed', x === b);
-    });
-    filter(g.dataset.filterFor);
-  });
-
-  on('input', e => {
-    const s = e.target.closest('[data-search-for],select[data-filter-for]');
-    if (s) filter(s.dataset.searchFor || s.dataset.filterFor);
-  });
-
-  on('change', e => {
-    const s = e.target.closest('select[data-filter-for]');
-    if (s) filter(s.dataset.filterFor);
-
-    const f = e.target.closest('input[type=file][data-preview]');
-    if (f?.files[0]) {
-      const r = new FileReader();
-      r.onload = () => $('#' + f.dataset.preview).innerHTML = `<img alt="Selected photo" src="${r.result}">`;
-      r.readAsDataURL(f.files[0]);
-    }
-
-    const p = e.target.closest('[data-party]');
-    if (p) {
-      const label = p.options[p.selectedIndex].text;
-      toast('Responsible party set to ' + label + '.');
-      const w = $('#dev-wait');
-      if (w) w.hidden = p.value !== 'developer';
-      const pc = $('[data-party-chip]');
-      if (pc) {
-        pc.className = 'chip ' + (p.value === 'developer' ? 'red' : '');
-        pc.textContent = 'Responsible: ' + label;
-      }
-    }
-  });
-
-  /* category suggestion (keyword preview; an AI model can replace it later) */
-  const RULES = [
-    ['Drainage / flooding', /drain|flood|baha|canal|clog/i],
-    ['Water supply', /brown|dirty water|no water|walang tubig|murky/i],
-    ['Streetlight', /street ?light|lamp|dark|ilaw/i],
-    ['Road damage', /pothole|road|crack|butas/i],
-    ['Stray animals', /dog|aso|stray|pusa/i],
-    ['Noise / disturbance', /noise|karaoke|loud|ingay|drunk|lasing/i],
-    ['Security concern', /security|suspicious|theft|nakaw|trespass/i],
-    ['Internet / utilities', /internet|wifi|wi-fi|cable|provider/i],
-    ['Water leak (warranty)', /leak|tulo|tagas/i]
-  ];
-
-  on('input', e => {
-    if (!e.target.matches('[data-suggest]')) return;
-    const box = $('#suggest-box');
-    const s = $('#category');
-    if (!box || !s) return;
-    const hit = RULES.find(r => r[1].test(e.target.value))?.[0];
-    box.hidden = !(hit && s.value !== hit && $$('option', s).some(o => o.value === hit));
-    if (!box.hidden) {
-      box.innerHTML = `Looks like <b>${esc(hit)}</b>. <button type="button" class="link" data-use-cat="${esc(hit)}">Use this</button> <span class="small">· keyword preview</span>`;
-    }
-  });
-
-  /* demo forms */
-  const FORMS = {
-    visitor: f => {
-      const code = 'V-' + (2044 + Math.floor(Math.random() * 40));
-      const name = f.elements.name.value.trim();
-      const type = f.elements.type.value;
-      const plate = f.elements.plate.value.trim();
-      const timeVal = f.elements.time.value;
-
-      $('#code-out').textContent = code;
-      $('#code-name').textContent = name;
-
-      const list = $('#resident-visitors-list');
-      if (list) {
-        const item = document.createElement('div');
-        item.className = 'item';
-        const timeStr = timeVal ? ` · ${timeVal}` : '';
-        const plateStr = plate ? ` · ${esc(plate)}` : '';
-        item.innerHTML = `
-          <span class="item-ic brand"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.5 3-5.5 6.5-5.5s6 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c2.5 0 4 1.5 4.5 4.5"/></svg></span>
-          <span class="item-main">
-            <span class="item-t">${esc(name)}${plateStr}</span>
-            <span class="item-s">${esc(type)} · Today${esc(timeStr)} · code <b>${code}</b></span>
-          </span>
-          <span class="chip amber">Expected</span>
-        `;
-        list.prepend(item);
-      }
-
-      openDlg('code-dlg');
-      f.reset();
-      dates();
-    },
-    announce: f => {
-      const list = $('#ann-list') || $('.ann')?.parentElement;
-      if (!list) return toast('Could not find the announcement list.', 'err');
-      const pin = f.elements.pin.checked;
-      const a = document.createElement('article');
-      a.className = 'ann' + (pin ? ' pin' : '');
-      a.innerHTML = `<div class="ann-h"><b>${esc(f.elements.title.value)}</b>${pin ? '<span class="chip brand">Pinned</span>' : ''}</div><p>${esc(f.elements.body.value)}</p><small class="muted">just now · Posted by HOA</small>`;
-      pin ? list.prepend(a) : list.insertBefore(a, $('.ann:not(.pin)', list));
-      f.reset();
-      toast('Announcement posted. Residents are notified (demo).');
-    },
-    walkin: addWalkIn,
-    note: f => {
-      const li = document.createElement('li');
-      li.className = $('[data-status-chip]') ? currentStatus() : 'pending';
-      li.innerHTML = `<span class="tl-dot"></span><div><b>Update</b> · just now<p>${esc(f.elements.note.value)} <small class="muted">— HOA</small></p></div>`;
-      $('#timeline')?.prepend(li);
-      f.reset();
-      toast('Update posted. Resident notified (demo).');
-    }
-  };
-
-  on('submit', e => {
-    const f = e.target.closest('form[data-demo]');
-    if (!f) return;
-    e.preventDefault();
-    if (!f.reportValidity()) return;
-    if (FORMS[f.dataset.demo]) return FORMS[f.dataset.demo](f);
-    toast(f.dataset.toast || 'Saved.');
-    if (f.dataset.redirect) setTimeout(() => location.href = f.dataset.redirect, 900);
-  });
-
-  /* admin: request status */
-  const currentStatus = () => $('#status-group .on')?.dataset.setStatus || 'pending';
-  function setStatus(b) {
-    const s = b.dataset.setStatus;
-    const [label, tone] = STATUS[s];
-    const c = $('[data-status-chip]');
-    const li = document.createElement('li');
-    $$('#status-group button').forEach(x => x.classList.toggle('on', x === b));
-    if (c) {
-      c.className = 'chip ' + tone;
-      c.textContent = label;
-    }
-    li.className = s;
-    li.innerHTML = `<span class="tl-dot"></span><div><b>${label}</b> · just now<p>Status changed by HOA.</p></div>`;
-    $('#timeline')?.prepend(li);
-    toast(`Status set to “${label}”. Resident notified (demo).`);
+  async function api(path,{method='GET',body}={}) {
+    const response=await fetch('/api'+path,{method,headers:body!==undefined?{'Content-Type':'application/json'}:{},body:body!==undefined?JSON.stringify(body):undefined});
+    const data=await response.json();
+    if(response.status===401) {location.assign('/login.html?role='+role);throw new Error('Please log in again.');}
+    if(!response.ok) throw new Error(data.error||'Could not save. Please try again.');
+    return data;
   }
-
-  /* guard: gate log & live stats */
-  const GATE = {
-    expected: ['Expected', 'amber'],
-    arrived: ['On site', 'green'],
-    left: ['Left', ''],
-    denied: ['Denied', 'red']
-  };
-
-  function updateGateStats() {
-    const list = $('#gate-list');
-    if (!list) return;
-    const rows = $$('.gate-row', list);
-    const counts = {
-      expected: rows.filter(r => r.dataset.status === 'expected').length,
-      arrived: rows.filter(r => r.dataset.status === 'arrived').length,
-      left: rows.filter(r => r.dataset.status === 'left').length
-    };
-    const eEl = $('[data-gate-stat="expected"]');
-    const aEl = $('[data-gate-stat="arrived"]');
-    const lEl = $('[data-gate-stat="left"]');
-    const totEl = $('[data-gate-total]');
-    if (eEl) eEl.textContent = counts.expected;
-    if (aEl) aEl.textContent = counts.arrived;
-    if (lEl) lEl.textContent = counts.left;
-    if (totEl) totEl.textContent = `${rows.length} record${rows.length === 1 ? '' : 's'}`;
+  function dialog(title,body) {
+    $('#live-dialog')?.remove();
+    const d=document.createElement('dialog');d.id='live-dialog';d.className='live-dialog card';
+    d.innerHTML=`<div class="live-row between"><h2>${esc(title)}</h2><button class="btn sm" data-close-dialog type="button">Close</button></div><div style="margin-top:20px">${body}</div>`;
+    document.body.append(d);d.showModal();return d;
   }
-
-  function setGate(row, st, note) {
-    const c = $('[data-gate-chip]', row);
-    if (c) {
-      c.className = 'chip ' + GATE[st][1];
-      c.textContent = GATE[st][0];
-    }
-    row.dataset.status = st;
-    const act = $('.gate-act', row);
-    if (act) {
-      act.innerHTML = st === 'arrived' ? '<button class="btn sm" data-gate="left">Mark left</button>' : '';
-    }
-    if (note) $('[data-gate-note]', row)?.replaceChildren(note);
-    updateGateStats();
+  function showError(error) {toast(error.message,true);}
+  function reportRows(rows) {
+    return rows.length?rows.map(r=>`<article class="live-entry"><div class="live-row between"><span class="live-meta">R-${r.id} · ${esc(r.category)}</span>${chip(r.status)}</div><h3><a href="request-detail.html?id=${r.id}">${esc(r.title)}</a></h3><p class="live-meta">${esc(r.location)} · ${esc(r.reporter)} · ${date(r.created_at)}</p><div class="live-row"><span>${r.affected} affected</span>${r.urgent?'<span class="chip red">Urgent</span>':''}<span class="chip">${esc(parties[r.party])}</span></div></article>`).join(''):empty('No reports yet.');
   }
-
-  on('submit', e => {
-    const f = e.target.closest('form[data-checkin]');
-    const l = e.target.closest('form[data-code-lookup]');
-    if (f) {
-      e.preventDefault();
-      const d = $('#checkin');
-      const plate = f.elements.plate.value ? ' · Plate ' + f.elements.plate.value.toUpperCase() : '';
-      setGate(document.getElementById(d.dataset.row), 'arrived', `ID left: ${f.elements.idleft.value}${plate} · in at ${now()}`);
-      d.close();
-      f.reset();
-      toast('Checked in. Resident notified (demo).');
-    } else if (l) {
-      e.preventDefault();
-      const code = l.elements.code.value.trim().toLowerCase();
-      const rows = $$('.gate-row');
-      const row = rows.find(r => (r.dataset.code || '').toLowerCase() === code);
-      rows.forEach(r => r.style.background = '');
-      if (!row) return toast('No visitor with that code. Use “Log a walk-in”.', 'err');
-      row.style.background = 'var(--brand-soft)';
-      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      toast('Found: ' + row.dataset.name);
-    }
-  });
-
-  function addWalkIn(f) {
-    const id = 'w' + Date.now();
-    const n = f.elements.name.value;
-    const row = document.createElement('div');
-    Object.assign(row, { className: 'gate-row', id });
-    Object.assign(row.dataset, { name: 'Walk-in: ' + n, status: 'arrived', code: 'W-' + id.slice(-3) });
-    row.innerHTML = `<div class="grow"><b>Walk-in: ${esc(n)}</b><div class="small muted">${esc(f.elements.type.value)} → ${esc(f.elements.dest.value)}${f.elements.confirmed.checked ? ' · confirmed by phone' : ' · <b style="color:var(--red)">not confirmed</b>'}</div><div class="small muted" data-gate-note>ID left: ${esc(f.elements.idleft.value)} · in at ${now()}</div></div><span class="chip green" data-gate-chip>On site</span><div class="gate-act"><button class="btn sm" data-gate="left">Mark left</button></div>`;
-    $('#gate-list')?.prepend(row);
-    $('#walkin')?.close();
-    f.reset();
-    updateGateStats();
-    toast('Walk-in logged.');
+  function annRows(rows) {
+    return rows.length?rows.map(a=>`<article class="live-entry"><div class="live-row between"><h3>${esc(a.title)}</h3>${a.pinned?'<span class="chip brand">Pinned</span>':''}</div><p>${esc(a.body)}</p><div class="live-row between"><small>${esc(a.author)} · ${date(a.created_at)}</small>${role==='admin'?`<button class="btn sm danger" data-delete-ann="${a.id}" type="button">Delete</button>`:''}</div></article>`).join(''):empty('No announcements yet.');
   }
-
-  /* CSV export of a table */
-  function exportCsv(id, name) {
-    const t = document.getElementById(id);
-    if (!t) return;
-    const rows = $$('tr', t)
-      .filter(r => !r.hidden)
-      .map(r => $$('th,td', r).map(c => '"' + c.textContent.replace(/\s+/g, ' ').trim().replace(/"/g, '""') + '"').join(','));
-    const a = Object.assign(document.createElement('a'), {
-      href: URL.createObjectURL(new Blob(['\uFEFF' + rows.join('\r\n')], { type: 'text/csv' })),
-      download: name
-    });
-    document.body.append(a);
-    a.click();
-    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 400);
+  function visitRows(rows) {
+    return rows.length?rows.map(v=>`<article class="live-entry"><div class="live-row between"><h3>${esc(v.name)}</h3>${chip(v.status)}</div><p><strong>${esc(v.code)}</strong> · ${esc(v.type)}</p><p class="live-meta">${esc(day(v.visit_date))} ${esc(v.visit_time)} · ${esc(v.host)}${v.block?` · Block ${esc(v.block)}, Lot ${esc(v.lot)}`:''}</p>${v.plate?`<p>Plate: ${esc(v.plate)}</p>`:''}${v.note?`<p>${esc(v.note)}</p>`:''}${v.id_left?`<p class="live-meta">ID left: ${esc(v.id_left)}</p>`:''}<div class="live-actions">${role==='guard'&&v.status==='expected'?`<button class="btn primary sm" data-checkin="${v.id}" type="button">Check in</button><button class="btn danger sm" data-visit-action="denied" data-id="${v.id}" type="button">Deny</button>`:''}${role==='guard'&&v.status==='arrived'?`<button class="btn sm" data-visit-action="left" data-id="${v.id}" type="button">Mark left</button>`:''}${role==='resident'&&v.status==='expected'?`<button class="btn sm danger" data-visit-action="cancelled" data-id="${v.id}" type="button">Cancel visit</button>`:''}</div></article>`).join(''):empty('No visitors found.');
   }
-
-  /* hydrate request-detail.html when ?id= is provided, or filter from ?block= / ?type= */
-  function hydrateFromQuery() {
-    const params = new URLSearchParams(location.search);
-    const block = params.get('block');
-    if (block) {
-      const sel = $('select[data-filter-for="req-table"][data-filter-key="block"]');
-      if (sel && [...sel.options].some(o => o.value === block)) sel.value = block;
-    }
-
-    const reqType = params.get('type');
-    if (reqType === 'service') {
-      const cat = $('#category');
-      if (cat) cat.value = 'Water leak (warranty)';
-    }
-
-    const id = params.get('id');
-    const rep = id && REPORTS[id];
-    const titleEl = $('[data-report-title]');
-    if (rep && titleEl) {
-      document.title = `Report ${id} · Carmela Subdivision`;
-      titleEl.textContent = rep.title;
-      $('[data-report-meta]').textContent = `${id} · ${rep.kind} · ${rep.category}`;
-      $('[data-report-desc]').textContent = rep.desc;
-      $('[data-report-where]').textContent = rep.where;
-      $('[data-report-by]').textContent = rep.reporter;
-      $('[data-report-when]').textContent = rep.reported;
-      const aff = $('[data-affect-n]');
-      if (aff) aff.textContent = rep.affected;
-
-      const [stLabel, stTone] = STATUS[rep.status];
-      const sc = $('[data-status-chip]');
-      if (sc) {
-        sc.className = 'chip ' + stTone;
-        sc.textContent = stLabel;
-      }
-
-      const pc = $('[data-party-chip]');
-      if (pc) {
-        pc.className = 'chip ' + (rep.party === 'developer' ? 'red' : '');
-        pc.textContent = 'Responsible: ' + PARTY_LABEL[rep.party];
-      }
-
-      const uc = $('[data-urgent-chip]');
-      if (uc) uc.hidden = !rep.urgent;
-
-      $$('#status-group button').forEach(b => b.classList.toggle('on', b.dataset.setStatus === rep.status));
-      const partySel = $('[data-party]');
-      if (partySel) partySel.value = rep.party;
-
-      const waitBanner = $('#dev-wait');
-      if (waitBanner) {
-        waitBanner.hidden = rep.party !== 'developer';
-        const dEl = $('[data-wait-days]', waitBanner);
-        if (dEl) dEl.textContent = `${rep.waitDays || 1} days`;
-      }
-
-      const followup = $('#followup');
-      if (followup) {
-        followup.value = `Follow-up on ${id}: ${rep.title}\nLocation: ${rep.where}\nCategory: ${rep.category}\nFirst reported: ${rep.reported}\nPeople affected: ${rep.affected}\nDetails: ${rep.desc}\n\nPlease advise when this will be addressed. - Carmela Subdivision HOA`;
-      }
-
-      const tl = $('#timeline');
-      if (tl) {
-        tl.innerHTML = rep.timeline.map(item => `
-          <li class="${item.cls}">
-            <span class="tl-dot"></span>
-            <div>
-              <b>${esc(item.title)}</b> · ${esc(item.when)}
-              <p>${esc(item.note)} <small class="muted">— ${esc(item.by)}</small></p>
-            </div>
-          </li>
-        `).join('');
-      }
+  function stats(items) { return `<div class="live-stats">${items.map(([n,label])=>`<div class="card"><strong>${n}</strong><span>${esc(label)}</span></div>`).join('')}</div>`; }
+  async function dashboard() {
+    const [allReports,announcements,allVisits]=await Promise.all([api('/reports'),api('/announcements'),api('/visits')]);
+    reports=allReports;
+    const own=role==='resident'?reports.filter(r=>r.user_id===user.id):reports;
+    main.innerHTML=header(role==='admin'?'HOA Dashboard':`Hello, ${user.name.split(' ')[0]}`,today(),role==='resident'?'<a class="btn primary" href="request-new.html">Submit a report</a><a class="btn" href="visitors.html">Register a visitor</a>':'<a class="btn primary" href="requests.html">Manage reports</a>')+`<div class="live-stack">${stats([[own.filter(r=>r.status!=='resolved').length,'Open reports'],[own.filter(r=>r.status==='resolved').length,'Resolved reports'],[allVisits.filter(v=>v.status==='arrived').length,'Visitors on site']])}${card('Latest reports',`<div class="live-list">${reportRows(own.slice(0,5))}</div>`)}${card('Announcements',`<div class="live-list">${annRows(announcements)}</div>`)}${role==='admin'?card('Accounts','<p>Add the residents, admins, and guards who will use the app.</p><button class="btn" type="button" data-add-user>Add account</button><div id="account-list" class="live-list" style="margin-top:16px"></div>'):''}</div>`;
+    if(role==='admin') {
+      const users=await api('/users');$('#account-list').innerHTML=users.map(u=>`<div class="live-entry"><b>${esc(u.name)}</b> · ${esc(u.role)}<p class="live-meta">${esc(u.email)}${u.block?` · Block ${esc(u.block)}, Lot ${esc(u.lot)}`:''}</p></div>`).join('');
     }
   }
-
-  /* start-up */
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    $$('.view > *').forEach((el, i) => {
-      el.classList.add('rv');
-      el.style.animationDelay = Math.min(i * 45, 320) + 'ms';
-    });
+  async function reportList() {
+    reports=await api('/reports');
+    main.innerHTML=header('Reports','See community concerns and follow their progress.',role==='resident'?'<a class="btn primary" href="request-new.html">Submit a report</a>':'')+`<div class="live-stack"><div class="live-row"><input class="input live-search" id="report-search" placeholder="Search reports" aria-label="Search reports"><select class="input" id="report-status" aria-label="Filter status" style="width:auto"><option value="all">All statuses</option>${options(Object.keys(labels).slice(0,3))}</select>${role==='resident'?'<label class="live-row"><input id="own-reports" type="checkbox">My reports only</label>':''}</div><div class="live-list" id="report-list">${reportRows(reports)}</div></div>`;
   }
-  hydrateFromQuery();
-  dates();
-  updateGateStats();
-  $$('[data-filter-for]').forEach(c => filter(c.dataset.filterFor));
+  function filterReports() {
+    const q=$('#report-search').value.toLowerCase(),status=$('#report-status').value,own=$('#own-reports')?.checked;
+    $('#report-list').innerHTML=reportRows(reports.filter(r=>(!own||r.user_id===user.id)&&(status==='all'||r.status===status)&&`${r.title} ${r.category} ${r.location} ${r.reporter} R-${r.id}`.toLowerCase().includes(q)));
+  }
+  function newReport() {
+    main.innerHTML=header('Submit a report','Tell the HOA what happened and where.')+card('Report details',`<form class="live-form" data-form="report">${field('Title','title','text','required maxlength="80" placeholder="e.g. Broken streetlight near the gate"')}${select('Category','category',categories)}${area('What happened?','description')}${field('Location','location','text',`required maxlength="200" value="${esc(user.block?`Block ${user.block}, Lot ${user.lot}`:'')}"`)}<label class="check"><input type="checkbox" name="urgent">Urgent: there is a safety or health concern</label>${field('Photo (optional, JPG/PNG/WebP under 2 MB)','photo','file','accept="image/jpeg,image/png,image/webp"')}<button class="btn primary" type="submit">Send report</button></form>`);
+  }
+  async function reportDetail() {
+    const reportId=new URLSearchParams(location.search).get('id');
+    if(!reportId) {main.innerHTML=header('Choose a report')+'<a class="btn" href="requests.html">View reports</a>';return;}
+    const r=currentReport=await api('/reports/'+encodeURIComponent(reportId));
+    document.title=r.title+' · Subdivision Connect';
+    main.innerHTML=header(r.title,`R-${r.id} · ${r.category}`,'<a class="btn" href="requests.html">Back to reports</a>')+`<div class="live-stack">${card('Report details',`<div class="live-row">${chip(r.status)}<span class="chip">Responsible: ${esc(parties[r.party])}</span>${r.urgent?'<span class="chip red">Urgent</span>':''}</div><p style="white-space:pre-wrap;margin-top:16px">${esc(r.description)}</p><p class="live-meta">${esc(r.location)} · ${esc(r.reporter)} · ${date(r.created_at)}</p>${r.photo?`<img class="live-photo" src="${esc(r.photo)}" alt="Photo attached to this report">`:''}<p style="margin-top:16px">${r.affected} resident(s) affected</p>${role==='resident'?`<button class="btn ${r.supported?'primary':''}" data-support type="button">${r.supported?'This affects me too ✓':'This affects me too'}</button>`:''}`)}${role==='admin'?card('Update this report',`<form class="live-form" data-form="update">${select('Status','status',['pending','in_progress','resolved'],r.status)}${select('Responsible party','party',Object.keys(parties),r.party)}<label>Update or follow-up note<textarea class="input" name="note" maxlength="2000" placeholder="What has been done or what happens next?"></textarea></label><button class="btn primary" type="submit">Save update</button></form>`):''}${card('Updates',`<ol class="live-timeline">${r.updates.map(u=>`<li><b>${esc(u.author)}</b> <span class="live-meta">${date(u.created_at)}</span><p>${esc(u.note)}</p></li>`).join('')}</ol>`)}</div>`;
+  }
+  function visitorForm(hosts) {
+    const walkin=role==='guard';
+    return `<form class="live-form" data-form="${walkin?'walkin':'visitor'}">${field('Visitor name','name','text','required maxlength="100"')}${select('Visitor type','type',visitorTypes)}${walkin?`<label>Visiting resident<select class="input" name="host_id" required><option value="">Choose a resident</option>${hosts.map(h=>`<option value="${h.id}">${esc(h.name)} · Block ${esc(h.block)}, Lot ${esc(h.lot)}</option>`).join('')}</select></label>${field('ID left at gate','id_left','text','required maxlength="100" placeholder="e.g. School ID"')}<label class="check"><input type="checkbox" name="confirmed" required>Resident confirmed the visit by phone</label>`:`${field('Visit date','visit_date','date',`required min="${today()}" value="${today()}"`)}${field('Time (optional)','visit_time','time')}`}${field('Plate number (optional)','plate','text','maxlength="30"')}${field('Note (optional)','note','text','maxlength="1000"')}<button class="btn primary" type="submit">${walkin?'Log walk-in':'Register visitor'}</button><div id="visit-result" aria-live="polite"></div></form>`;
+  }
+  async function visitorsPage() {
+    visits=await api('/visits');
+    main.innerHTML=header(role==='guard'?'Gate Management':'Visitors',role==='resident'?'Register a visitor and share their code with them.':'Find a visitor by name or code.',role==='guard'?'<button class="btn primary" data-walkin type="button">Log a walk-in</button>':'')+`<div class="live-stack">${role==='resident'?card('Register a visitor',visitorForm([])):stats([[visits.filter(v=>v.status==='expected'&&day(v.visit_date)===today()).length,'Expected today'],[visits.filter(v=>v.status==='arrived').length,'On site'],[visits.filter(v=>v.status==='left').length,'Completed visits']])}<div class="live-row"><input class="input live-search" id="visit-search" placeholder="Search visitor name or code" aria-label="Search visitors"><select class="input" id="visit-status" aria-label="Filter visitor status" style="width:auto"><option value="all">All statuses</option>${options(['expected','arrived','left','denied','cancelled'])}</select><button class="btn" data-refresh type="button">Refresh</button></div><div class="live-list" id="visitor-list">${visitRows(visits)}</div>${role==='guard'?card('Announcements',`<div id="gate-announcements" class="live-list"></div>`):''}</div>`;
+    if(role==='guard') $('#gate-announcements').innerHTML=annRows(await api('/announcements'));
+  }
+  function filterVisits() {
+    const q=$('#visit-search').value.toLowerCase(),status=$('#visit-status').value;
+    $('#visitor-list').innerHTML=visitRows(visits.filter(v=>(status==='all'||v.status===status)&&`${v.name} ${v.code} ${v.host} ${v.plate}`.toLowerCase().includes(q)));
+  }
+  async function gateLog() {
+    events=await api('/gate-events');
+    main.innerHTML=header('Gate log','Every check-in, checkout, and denied entry is saved.','<button class="btn" data-export type="button">Download CSV</button><button class="btn" data-refresh type="button">Refresh</button>')+card('Visitor activity',`<div class="live-list">${events.length?events.map(e=>`<article class="live-entry"><div class="live-row between"><b>${esc(e.name)} · ${esc(e.code)}</b>${chip(e.action)}</div><p>${esc(e.note)}</p><small>${date(e.created_at)} · ${esc(e.guard)}</small></article>`).join(''):empty('No gate activity yet.')}</div>`);
+  }
+  async function announcementsPage() {
+    const announcements=await api('/announcements');
+    main.innerHTML=header('Announcements','Post a message for the community.')+`<div class="live-stack">${card('New announcement',`<form class="live-form" data-form="announcement">${field('Title','title','text','required maxlength="80"')}${area('Message','body')}<label class="check"><input type="checkbox" name="pinned">Pin this announcement</label><button class="btn primary" type="submit">Post announcement</button></form>`)}${card('Posted announcements',`<div class="live-list">${annRows(announcements)}</div>`)}</div>`;
+  }
+  async function refreshNotifications() {
+    notifications=await api('/notifications');
+    $$('.bell-dot').forEach(el=>el.hidden=!notifications.some(n=>!n.seen));
+  }
+  async function loadPage() {
+    if(['home.html','dashboard.html'].includes(page)) await dashboard();
+    else if(page==='requests.html') await reportList();
+    else if(page==='request-new.html') newReport();
+    else if(page==='request-detail.html') await reportDetail();
+    else if(['visitors.html','gate.html'].includes(page)) await visitorsPage();
+    else if(page==='log.html') await gateLog();
+    else if(page==='announcements.html') await announcementsPage();
+    await refreshNotifications();
+  }
+  async function fileData(file) {
+    if(!file?.size) return null;
+    if(file.size>2*1024*1024 || !['image/jpeg','image/png','image/webp'].includes(file.type)) throw new Error('Use a JPG, PNG, or WebP photo under 2 MB.');
+    return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Could not read photo.'));reader.readAsDataURL(file);});
+  }
+  document.addEventListener('submit',async event=>{
+    const f=event.target.closest('[data-form]');if(!f) return;event.preventDefault();
+    if(!f.reportValidity()) return;
+    const button=$('button[type="submit"]',f);button.disabled=true;
+    const b=Object.fromEntries(new FormData(f));
+    try {
+      switch(f.dataset.form) {
+        case 'report': {
+          const r=await api('/reports',{method:'POST',body:{...b,urgent:f.elements.urgent.checked,photo:await fileData(f.elements.photo.files[0])}});
+          location.assign('request-detail.html?id='+r.id);break;
+        }
+        case 'update': await api('/reports/'+currentReport.id,{method:'PATCH',body:b});await reportDetail();toast('Update saved.');break;
+        case 'visitor':
+        case 'walkin': {
+          const v=await api('/visits',{method:'POST',body:{...b,confirmed:!!f.elements.confirmed?.checked}});
+          $('#live-dialog')?.close();await visitorsPage();
+          if(role==='resident') {const result=$('#visit-result');result.className='live-success';result.innerHTML=`Visitor registered. Share this code: <strong>${esc(v.code)}</strong>`;}
+          toast(role==='guard'?'Walk-in saved.':'Visitor registered.');break;
+        }
+        case 'checkin': await api('/visits/'+f.dataset.id,{method:'PATCH',body:{status:'arrived',id_left:b.id_left}});$('#live-dialog').close();await visitorsPage();toast('Visitor checked in.');break;
+        case 'announcement': await api('/announcements',{method:'POST',body:{...b,pinned:f.elements.pinned.checked}});await announcementsPage();toast('Announcement posted.');break;
+        case 'user': await api('/users',{method:'POST',body:b});$('#live-dialog').close();await dashboard();toast('Account added.');break;
+      }
+      await refreshNotifications();
+    } catch(error) {
+      let message=$('[data-form-error]',f);if(!message) {message=document.createElement('p');message.dataset.formError='';message.className='live-alert';message.setAttribute('role','alert');f.append(message);}message.textContent=error.message;
+    } finally {button.disabled=false;}
+  });
+  document.addEventListener('click',async event=>{
+    const target=event.target.closest('button,a');if(!target) return;
+    try {
+      if(target.matches('[data-theme-toggle]')) {
+        const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=theme;localStorage.setItem('cc_theme',theme);
+      } else if(target.matches('[data-logout]')) {
+        event.preventDefault();await api('/auth/logout',{method:'POST',body:{}});location.assign('/');
+      } else if(target.matches('[data-close-dialog]')) target.closest('dialog').close();
+      else if(target.matches('[data-open="notif"]')) {
+        await refreshNotifications();dialog('Notifications',`<div class="live-list">${notifications.length?notifications.map(n=>`<a class="live-entry" href="${esc(n.link)}"><b>${esc(n.message)}</b><p class="live-meta">${date(n.created_at)}</p></a>`).join(''):empty('You have no notifications yet.')}</div>`);await api('/notifications/read',{method:'POST',body:{}});await refreshNotifications();
+      } else if(target.matches('[data-refresh]')) await loadPage();
+      else if(target.matches('[data-support]')) {target.disabled=true;await api('/reports/'+currentReport.id+'/support',{method:'POST',body:{supported:!currentReport.supported}});await reportDetail();}
+      else if(target.matches('[data-delete-ann]')) {if(!confirm('Delete this announcement?')) return;await api('/announcements/'+target.dataset.deleteAnn,{method:'DELETE',body:{}});await announcementsPage();}
+      else if(target.matches('[data-checkin]')) {
+        const v=visits.find(v=>v.id===Number(target.dataset.checkin));dialog('Check in '+v.name,`<form class="live-form" data-form="checkin" data-id="${v.id}">${field('ID left at the gate','id_left','text','required maxlength="100" placeholder="e.g. School ID or No ID left"')}<button class="btn primary" type="submit">Confirm check-in</button></form>`);
+      } else if(target.matches('[data-visit-action]')) {
+        const action=target.dataset.visitAction;if(!confirm(`${labels[action]}: confirm this visitor action?`)) return;
+        target.disabled=true;await api('/visits/'+target.dataset.id,{method:'PATCH',body:{status:action}});await visitorsPage();toast('Visitor updated.');
+      } else if(target.matches('[data-walkin]')) {const hosts=await api('/users');dialog('Log a walk-in',visitorForm(hosts));}
+      else if(target.matches('[data-add-user]')) dialog('Add an account',`<form class="live-form" data-form="user">${field('Full name','name','text','required maxlength="100"')}${field('Email','email','email','required maxlength="254"')}${field('Password (at least 10 characters)','password','password','required minlength="10" maxlength="200" autocomplete="new-password"')}${select('Role','role',['resident','admin','guard'])}<p class="muted small">Block and lot are required for resident accounts.</p>${field('Block','block','text','maxlength="30"')}${field('Lot','lot','text','maxlength="30"')}<button class="btn primary" type="submit">Add account</button></form>`);
+      else if(target.matches('[data-export]')) {
+        const csvCell=value=>{let s=String(value??'');if(/^[=+@\-\t\r]/.test(s)) s="'"+s;return '"'+s.replaceAll('"','""')+'"';};
+        const rows=[['Time','Visitor','Code','Action','Guard','Note'],...events.map(e=>[date(e.created_at),e.name,e.code,e.action,e.guard,e.note])];
+        const url=URL.createObjectURL(new Blob(['\uFEFF'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='gate-log.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+      }
+    } catch(error) {showError(error);target.disabled=false;}
+  });
+  document.addEventListener('input',event=>{if(event.target.matches('#report-search,#report-status,#own-reports')) filterReports();if(event.target.matches('#visit-search,#visit-status')) filterVisits();});
+  document.addEventListener('change',event=>{if(event.target.matches('#report-status,#own-reports')) filterReports();if(event.target.matches('#visit-status')) filterVisits();});
+  async function start() {
+    try {
+      try {const theme=localStorage.getItem('cc_theme');if(theme) document.documentElement.dataset.theme=theme;} catch {}
+      user=(await api('/auth/me')).user;
+      $$('[data-user-name],.side-user b').forEach(el=>el.textContent=user.name);
+      $$('.side-user small').forEach(el=>el.textContent=user.role==='resident'?`Resident · Block ${user.block}, Lot ${user.lot}`:user.role==='admin'?'HOA Administrator':'Gate guard');
+      $$('[data-user-initials],.side-user .avatar').forEach(el=>el.textContent=user.name.split(' ').map(n=>n[0]).slice(0,2).join(''));
+      $$('a[href="../index.html"]').filter(el=>el.closest('.side-foot')||el.getAttribute('aria-label')==='Logout').forEach(el=>{el.dataset.logout='';});
+      await loadPage();
+      // Keep typed forms intact when returning from another window or a file picker.
+      window.addEventListener('focus',()=>refreshNotifications().catch(showError));
+    } catch(error) {main.innerHTML=header('Could not load this page')+`<p class="live-alert">${esc(error.message)}</p><button class="btn" data-refresh type="button">Try again</button>`;}
+  }
+  start();
 })();

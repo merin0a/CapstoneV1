@@ -55,13 +55,13 @@
 
           <label class="field">
             <span class="field-l">Password</span>
-            <input class="input" type="password" name="pass" placeholder="Enter your password (optional in demo)">
+            <input class="input" type="password" name="pass" placeholder="Enter your password" required autocomplete="current-password">
           </label>
 
           <button class="btn primary block" type="submit">
             Log in
           </button>
-        </form>
+        <p id="login-error" role="alert" class="muted"></p></form>
       </div>
     </section>
 
@@ -69,57 +69,7 @@
 
   <div id="toast-root" aria-live="polite"></div>
 
-  <script>
-    try {
-      const t = localStorage.getItem('cc_theme');
-      if (t) document.documentElement.dataset.theme = t;
-    } catch (e) {}
-
-    const params = new URLSearchParams(window.location.search);
-    const role = params.get("role");
-
-    const roles = {
-      resident: {
-        name: "Resident",
-        description: "Log in to access the Resident Dashboard.",
-        destination: "./resident/home.html",
-        email: "maria.santos@carmela.ph"
-      },
-      admin: {
-        name: "HOA Admin",
-        description: "Log in to access the Admin Dashboard.",
-        destination: "./admin/dashboard.html",
-        email: "admin@carmela.ph"
-      },
-      guard: {
-        name: "Guard",
-        description: "Log in to access Gate Management.",
-        destination: "./guard/gate.html",
-        email: "guard.tony@carmela.ph"
-      }
-    };
-
-    const selectedRole = roles[role];
-
-    if (!selectedRole) {
-      window.location.replace("./index.html");
-    } else {
-      document.getElementById("login-title").textContent =
-        selectedRole.name + " Log in";
-
-      document.getElementById("login-description").textContent =
-        selectedRole.description;
-
-      const emailInput = document.querySelector('#demo-login input[name="email"]');
-      if (emailInput) emailInput.value = selectedRole.email;
-    }
-
-    document.getElementById("demo-login").addEventListener("submit", function (event) {
-      event.preventDefault();
-      if (!selectedRole) return;
-      window.location.href = selectedRole.destination;
-    });
-  </script>
+  <script src="./js/login.js"></script>
 
 </body>
 

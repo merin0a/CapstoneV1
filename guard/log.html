@@ -11,6 +11,7 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/live.css">
 </head>
 
 <body data-role="guard" data-page="log.html">
@@ -39,12 +40,12 @@
 
       <div class="side-foot">
         <div class="side-user">
-          <span class="avatar">TV</span>
-          <span><b>Tony Valdez</b><small>Gate guard</small></span>
+          <span class="avatar" data-user-initials>SC</span>
+          <span><b data-user-name>Account</b><small>guard</small></span>
         </div>
         <a class="nv" href="../index.html">
           <i data-i="log-out"></i>
-          <span>Back to role selection</span>
+          <span>Log out</span>
         </a>
       </div>
     </aside>
@@ -69,88 +70,7 @@
         </div>
       </header>
 
-      <main class="view" id="main">
-        <div class="page-head">
-          <div>
-            <h1>Gate log</h1>
-            <p class="muted">Recent entries recorded at this gate</p>
-          </div>
-        </div>
-
-        <div class="search">
-          <i data-i="search"></i>
-          <input class="input" type="search" data-search-for="g-table" placeholder="Search name or ID type"
-            aria-label="Search the gate log">
-        </div>
-
-        <div class="card flush table-wrap">
-          <table class="t stackable" id="g-table">
-            <thead>
-              <tr>
-                <th>When</th>
-                <th>Visitor</th>
-                <th>ID left</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr data-item>
-                <td data-l="When">Oct 23, 9:12 AM</td>
-                <td>
-                  <b>Mang Lando (plumber)</b>
-                  <div class="muted small">Contractor / service</div>
-                </td>
-                <td data-l="ID left">National ID</td>
-                <td data-l="Status"><span class="chip green">On site</span></td>
-              </tr>
-              <tr data-item>
-                <td data-l="When">Oct 23, 8:40 AM</td>
-                <td>
-                  <b>Walk-in: Mr. Aquino</b>
-                  <div class="muted small">Guest</div>
-                </td>
-                <td data-l="ID left">School / company ID</td>
-                <td data-l="Status"><span class="chip">Left</span></td>
-              </tr>
-              <tr data-item>
-                <td data-l="When">Oct 23, 7:55 AM</td>
-                <td>
-                  <b>Tricycle · TC 7710</b>
-                  <div class="muted small">Tricycle / ride</div>
-                </td>
-                <td data-l="ID left">No ID left</td>
-                <td data-l="Status"><span class="chip">Left</span></td>
-              </tr>
-              <tr data-item>
-                <td data-l="When">Oct 22, 1:00 PM</td>
-                <td>
-                  <b>Lazada rider</b>
-                  <div class="muted small">Delivery</div>
-                </td>
-                <td data-l="ID left">Driver’s license</td>
-                <td data-l="Status"><span class="chip">Left</span></td>
-              </tr>
-              <tr data-item>
-                <td data-l="When">Oct 22, 10:20 AM</td>
-                <td>
-                  <b>Walk-in: delivery man</b>
-                  <div class="muted small">Delivery</div>
-                </td>
-                <td data-l="ID left">No ID left</td>
-                <td data-l="Status"><span class="chip">Left</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card" data-empty-for="g-table" hidden>
-          <div class="empty">
-            <i data-i="search"></i>
-            <h3>No matching entries</h3>
-            <p>Try a different name or ID type.</p>
-          </div>
-        </div>
-      </main>
+      <main class="view" id="main" aria-live="polite"><p>Loading your page…</p><noscript>Please enable JavaScript to use this app.</noscript><noscript>Please enable JavaScript to use this app.</noscript></main>
     </div>
 
     <nav class="bottom" aria-label="Main">
@@ -164,33 +84,6 @@
       </a>
     </nav>
   </div>
-
-  <dialog id="notif">
-    <div class="dlg">
-      <div class="dlg-h">
-        <h2>Notifications</h2>
-        <button type="button" class="icon-btn" data-close aria-label="Close">
-          <i data-i="x"></i>
-        </button>
-      </div>
-      <div class="list">
-        <div class="item unread">
-          <span class="item-ic"><i data-i="bell"></i></span>
-          <span class="item-main">
-            <span class="item-t">Visitor Jose Ramirez is expected at 3:00 PM (V-2041).</span>
-            <span class="item-s">today</span>
-          </span>
-        </div>
-        <div class="item">
-          <span class="item-ic"><i data-i="bell"></i></span>
-          <span class="item-main">
-            <span class="item-t">Reminder: log every tricycle and leave an ID.</span>
-            <span class="item-s">this week</span>
-          </span>
-        </div>
-      </div>
-    </div>
-  </dialog>
 
   <div id="toast-root" aria-live="polite"></div>
 

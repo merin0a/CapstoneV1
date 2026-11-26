@@ -5,12 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0C7A63">
-    <title>Report R-1003 · Carmela Subdivision</title>
+    <title>Report details · Carmela Subdivision</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/live.css">
 </head>
 
 <body data-role="admin" data-page="request-detail.html">
@@ -48,7 +49,7 @@
 
             <div class="side-foot">
                 <div class="side-user">
-                    <span class="avatar">AD</span>
+                    <span class="avatar" data-user-initials>SC</span>
                     <span>
                         <b>Admin</b>
                         <small>HOA Administrator</small>
@@ -56,7 +57,7 @@
                 </div>
                 <a class="nv" href="../index.html">
                     <i data-i="log-out"></i>
-                    <span>Back to role selection</span>
+                    <span>Log out</span>
                 </a>
             </div>
         </aside>
@@ -81,133 +82,7 @@
                 </div>
             </header>
 
-            <main class="view" id="main">
-                <a class="back" href="./requests.html">
-                    <i data-i="chevL"></i> Requests
-                </a>
-
-                <div class="g2" style="align-items:start">
-                    <div class="stack">
-                        <article class="card stack">
-                            <div class="row wrap">
-                                <span class="item-ic blue">
-                                    <i data-i="wrench"></i>
-                                </span>
-                                <div class="grow">
-                                    <h1 style="font-size:1.35rem" data-report-title>Leak under the kitchen sink wall
-                                    </h1>
-                                    <p class="muted" data-report-meta>R-1003 · Service request · Water leak (warranty)
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="chips" style="margin:0">
-                                <span class="chip blue" data-status-chip>In progress</span>
-                                <span class="chip red" data-party-chip>Responsible: Developer</span>
-                                <span class="chip red" data-urgent-chip hidden>Urgent</span>
-                            </div>
-
-                            <div class="photo-slot">
-                                <i data-i="camera"></i> Photo attached by the resident
-                            </div>
-
-                            <p data-report-desc>
-                                Leak started a month after turnover. This should be covered by the developer’s warranty.
-                            </p>
-
-                            <dl class="facts">
-                                <div>
-                                    <dt>Where</dt>
-                                    <dd data-report-where>Block 5, Lot 4</dd>
-                                </div>
-                                <div>
-                                    <dt>Reported by</dt>
-                                    <dd data-report-by>Juan Dela Cruz</dd>
-                                </div>
-                                <div>
-                                    <dt>Reported</dt>
-                                    <dd data-report-when>Oct 7, 9:30 AM</dd>
-                                </div>
-                                <div>
-                                    <dt>People affected</dt>
-                                    <dd data-affect-n>1</dd>
-                                </div>
-                            </dl>
-
-                            <div class="banner warn" id="dev-wait">
-                                <i data-i="clock"></i>
-                                <div>
-                                    Waiting on the developer for <b data-wait-days>16 days</b>.
-                                    <button type="button" class="link" data-open="followup-dlg">
-                                        Copy a follow-up message
-                                    </button>
-                                </div>
-                            </div>
-                        </article>
-
-                        <section class="card">
-                            <h2>Progress</h2>
-                            <ol class="timeline" id="timeline">
-                                <li class="in_progress">
-                                    <span class="tl-dot"></span>
-                                    <div>
-                                        <b>In progress</b> · Oct 7, 3:30 PM
-                                        <p>
-                                            Forwarded to the developer. Waiting for a reply.
-                                            <small class="muted">— HOA</small>
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="pending">
-                                    <span class="tl-dot"></span>
-                                    <div>
-                                        <b>Pending</b> · Oct 7, 9:30 AM
-                                        <p>
-                                            Report submitted
-                                            <small class="muted">— Juan</small>
-                                        </p>
-                                    </div>
-                                </li>
-                            </ol>
-                        </section>
-                    </div>
-
-                    <section class="card stack">
-                        <h2>Manage</h2>
-
-                        <div class="field">
-                            <span class="field-l">Status</span>
-                            <div class="seg" id="status-group">
-                                <button type="button" data-set-status="pending">Pending</button>
-                                <button type="button" class="on" data-set-status="in_progress">In progress</button>
-                                <button type="button" data-set-status="resolved">Resolved</button>
-                            </div>
-                        </div>
-
-                        <label class="field">
-                            <span class="field-l">Responsible party</span>
-                            <select class="input" data-party>
-                                <option value="unassigned">Not assigned</option>
-                                <option value="hoa">HOA</option>
-                                <option value="developer" selected>Developer</option>
-                                <option value="lgu">LGU / barangay</option>
-                            </select>
-                            <span class="field-h">
-                                Choosing “Developer” starts the waiting-time counter.
-                            </span>
-                        </label>
-
-                        <form class="stack" data-demo="note">
-                            <label class="field">
-                                <span class="field-l">Add an update for the resident</span>
-                                <textarea class="input" name="note" rows="3" required
-                                    placeholder="e.g. Plumber scheduled for Friday morning"></textarea>
-                            </label>
-                            <button class="btn ghost" type="submit">Post update</button>
-                        </form>
-                    </section>
-                </div>
-            </main>
+            <main class="view" id="main" aria-live="polite"><p>Loading your page…</p><noscript>Please enable JavaScript to use this app.</noscript><noscript>Please enable JavaScript to use this app.</noscript></main>
         </div>
 
         <nav class="bottom" aria-label="Main">
@@ -231,49 +106,6 @@
     </div>
 
     <!-- Follow-up dialog -->
-    <dialog id="followup-dlg" aria-labelledby="followup-title">
-        <div class="dlg">
-            <div class="dlg-h">
-                <h2 id="followup-title">Follow-up message</h2>
-                <button type="button" class="icon-btn" data-close aria-label="Close">
-                    <i data-i="x"></i>
-                </button>
-            </div>
-
-            <textarea class="input" id="followup" rows="9" readonly>Follow-up on R-1003: Leak under the kitchen sink wall
-Location: Block 5, Lot 4
-Category: Water leak (warranty)
-First reported: October 7, 2026 (16 days ago)
-People affected: 1
-Details: Leak started a month after turnover. Covered by the developer's warranty.
-
-Please advise when this will be addressed. - Carmela Subdivision HOA</textarea>
-
-            <button type="button" class="btn primary block" data-copy="#followup">
-                <i data-i="copy"></i> Copy message
-            </button>
-        </div>
-    </dialog>
-
-    <dialog id="notif" aria-labelledby="notif-title">
-        <div class="dlg">
-            <div class="dlg-h">
-                <h2 id="notif-title">Notifications</h2>
-                <button class="icon-btn" data-close aria-label="Close">
-                    <i data-i="x"></i>
-                </button>
-            </div>
-            <div class="list">
-                <div class="item unread">
-                    <span class="item-ic brand"><i data-i="clipboard"></i></span>
-                    <span class="item-main">
-                        <span class="item-t">New community report needs attention.</span>
-                        <span class="item-s">Today</span>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </dialog>
 
     <div id="toast-root" aria-live="polite"></div>
 

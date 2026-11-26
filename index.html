@@ -73,9 +73,9 @@
         <section class="auth-side">
             <div class="auth-card card">
                 <div class="auth-heading">
-                    <h2>Choose a role to explore</h2>
+                    <h2>Choose your role</h2>
                     <p class="muted small">
-                        Select your role to continue to the demo login page.
+                        Select your role to log in.
                     </p>
                 </div>
 
@@ -115,12 +115,7 @@
 
     </div>
 
-    <script>
-        try {
-            const t = localStorage.getItem('cc_theme');
-            if (t) document.documentElement.dataset.theme = t;
-        } catch (e) { }
-    </script>
+    <script src="./js/theme.js"></script>
 </body>
 
 </html>
