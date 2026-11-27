@@ -7,18 +7,10 @@
   document.querySelector('#login-title').textContent=label+' Log in';
   document.querySelector('#login-description').textContent='Enter your email and password.';
   const form=document.querySelector('#demo-login');
-  document.querySelector('.password-toggle')?.addEventListener('click',event=>{
-    const button=event.currentTarget;
-    const showing=form.elements.pass.type==='password';
-    form.elements.pass.type=showing?'text':'password';
-    button.textContent=showing?'Hide':'Show';
-    button.setAttribute('aria-label',showing?'Hide password':'Show password');
-    button.setAttribute('aria-pressed',String(showing));
-  });
   form.elements.email.value=email;
   form.addEventListener('submit',async event=>{
     event.preventDefault();
-    const button=form.querySelector('button[type="submit"]');button.disabled=true;
+    const button=form.querySelector('button');button.disabled=true;
     const error=document.querySelector('#login-error');error.textContent='';
     try {
       const response=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:form.elements.email.value,password:form.elements.pass.value})});
